@@ -1,8 +1,7 @@
 import os
 import requests
 
-# TODO: Refactor code and see if there is a more efficient way. Also, start to create a new class or method to
-#  save all the txt.
+# TODO: Refactor code and see if there is a more efficient way.
 class Crawler:
 
     def __init__(self, fileDir):
@@ -10,7 +9,7 @@ class Crawler:
         if not os.path.exists(fileDir):
             f = open(self.fileDir, "x")
             with open(self.fileDir, "w") as file:
-                file.write("0")
+                file.write("1")
 
 
     def request(self):
@@ -19,6 +18,7 @@ class Crawler:
             print(request.text)
         else:
             print("There is no book")
+        self.saveBookToFile(request.text, "books")
         self.increaseBookId()
 
 
@@ -34,3 +34,11 @@ class Crawler:
         with open(self.fileDir, "w") as file:
             file.truncate()
             file.write(str(var + 1))
+
+    def saveBookToFile(self, content, outputDir):
+        if not os.path.exists(outputDir):
+            os.makedirs(outputDir)
+        filename = os.path.join(outputDir, f"book_{self.getId()}.txt")
+        with open(filename, "w", encoding="utf-8") as file:
+            file.write(content)
+        print(f"Book {self.getId()} has been saved to {filename}")
