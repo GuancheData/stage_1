@@ -1,19 +1,22 @@
 class Crawler:
-    def __init__(self, counter, requester, storage):
+    def __init__(self, counter, requester, storage, scheduler, booksNumber):
         self.counter = counter
         self.requester = requester
         self.storage = storage
+        self.scheduler = scheduler
+        self.booksNumber = booksNumber
 
     def crawlBook(self):
-        i = 1
-        while i <= 1000:
-            bookId = self.counter.getId()
-            content = self.requester.fetchBook(bookId)
+        bookId = self.counter.getId()
+        content = self.requester.fetchBook(bookId)
 
-            if content:
-                path = self.storage.save(bookId, content)
-                print(f"Book {bookId} saved at {path}")
-            else:
-                print(f"Book {bookId} not found")
+        if content:
+            path = self.storage.save(bookId, content)
+            print(f"Book {bookId} saved at {path}")
+        else:
+            print(f"Book {bookId} not found")
 
-            self.counter.increaseBookId()
+        self.counter.increaseBookId()
+
+    def schedulerCrawl(self):
+        self.scheduler.scheduleTask(self.crawlBook, self.booksNumber)
