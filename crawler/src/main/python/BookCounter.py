@@ -7,7 +7,7 @@ class BookCounter:
         if not os.path.exists(filePath):
             f = open(self.filePath, "x")
             with open(self.filePath, "w") as file:
-                file.write("0")
+                file.write("1")
 
     def getId(self):
         with open(self.filePath, "r") as file:
