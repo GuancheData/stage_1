@@ -12,7 +12,10 @@ class Crawler:
 
         if content:
             path = self.storage.save(bookId, content)
-            print(f"Book {bookId} saved at {path}")
+            if path:
+                print(f"Book {bookId} saved at {path}")
+            else:
+                print(f"Book {bookId} not saved")
         else:
             print(f"Book {bookId} not found")
 

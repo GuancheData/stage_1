@@ -8,7 +8,7 @@ import sys
 if __name__ == "__main__":
     counter = BookCounter("bookCounter.txt")
     requester = GutenbergRequest()
-    storage = BookStorage("books")
+    storage = BookStorage("datalake")
     scheduler = BookRequestSchedule()
 
     crawler = Crawler(counter, requester, storage, scheduler,  int(sys.argv[1]))
