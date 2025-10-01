@@ -1,9 +1,5 @@
-from indexer.Indexer import Indexer
+from indexer.MetadataParser import MetadataParser
 
-booksDir = "../crawler/src/main/python/books"
-index_file = "invertedIndex.json"
-
-indexer = Indexer(booksDir)
-indexer.buildIndex()
-indexer.saveIndex(index_file)
-
+if __name__ == "__main__":
+    metadataParser = MetadataParser("datalake", "bookCounter.txt")
+    metadataParser.parseMetadata()
