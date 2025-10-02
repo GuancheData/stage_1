@@ -1,8 +1,9 @@
+import os.path
 from pathlib import Path
 import re
 import sqlite3
-
 from indexer.IndexedBooksCount import IndexedBooksCount
+import json
 
 
 class MetadataParser:
@@ -33,7 +34,7 @@ class MetadataParser:
 
 
 
-    def parseMetadata(self):
+    def parseMetadataSql(self):
         route = Path(self.booksMetadataContentPath)
         files = route.rglob(f'[0-9]*header.txt')
         pattern = re.compile(r"Title:\s*(.+)|Author:\s*(.+)|Language:\s*(.+)")
@@ -54,3 +55,28 @@ class MetadataParser:
                         title=metadata["Title"] if "Title" in metadata.keys() else None,
                         author=metadata["Author"] if "Author" in metadata.keys() else None,
                         language=metadata["Language"] if "Language" in metadata.keys() else None)
+
+    def parseMetadataJson(self, jsonPath):
+        route = Path(self.booksMetadataContentPath)
+        files = route.rglob(f'[0-9]*header.txt')
+        pattern = re.compile(r"Title:\s*(.+)|Author:\s*(.+)|Language:\s*(.+)")
+        if os.path.exists(jsonPath):
+            all_metadata = json.load(jsonPath)
+        else:
+            all_metadata = {}
+        for f in files:
+            fileMatch = re.search(r"^(\d+)_", f.name)
+            if int(fileMatch.group(1)) >= int(self.bookCount.getId()):
+                if int(fileMatch.group(1)) >= int(self.bookCount.getId()):
+                    self.bookCount.increaseBookId()
+                    with f.open('r') as file:
+                        metadata = {}
+                        for line in file:
+                            match = pattern.search(line)
+                            if match:
+                                matchSplit = match.group(0).split(sep=":", maxsplit=1)
+                                metadata[matchSplit[0]] = matchSplit[1]
+                                print(f"found a match in {fileMatch.group(1)}")
+                        all_metadata[fileMatch.group(1)] = metadata
+        with open(jsonPath, 'a') as file:
+            json.dump(all_metadata, file)
