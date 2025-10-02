@@ -1,10 +1,11 @@
 class Crawler:
-    def __init__(self, counter, requester, storage, scheduler, booksNumber):
+    def __init__(self, counter, requester, storage, scheduler, booksNumber, datalakeStructure="date"):
         self.counter = counter
         self.requester = requester
         self.storage = storage
         self.scheduler = scheduler
         self.booksNumber = booksNumber
+        self.datalake = datalakeStructure
 
     def crawlBook(self):
         bookId = self.counter.getId()

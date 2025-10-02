@@ -1,10 +1,11 @@
 import os
-from datetime import datetime
+from datetime import datetime, timezone
 from pathlib import Path
+from abc import ABC, abstractmethod
 
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
 BOOK_END = "*** END OF THE PROJECT GUTENBERG EBOOK"
-class BookStorage:
+class BookStorage(ABC):
     def __init__(self, outputDir = "datalake"):
         self.outputDir = Path(outputDir)
         if not os.path.exists(outputDir):
@@ -20,28 +21,6 @@ class BookStorage:
 
         return header, body
 
+    @abstractmethod
     def save(self, bookId, content):
-        contentSeparated = self.separateHeader(content)
-
-        if not contentSeparated:
-            return False
-
-        headerContent, bodyContent = contentSeparated
-
-
-        currentDate = datetime.today().strftime('%Y%m%d')
-        currentTime = datetime.today().strftime('%H')
-
-        date_dir = self.outputDir / currentDate
-        time_dir = date_dir / currentTime
-
-        time_dir.mkdir(parents=True, exist_ok=True)
-
-        headerPath = time_dir / f"{bookId}_header.txt"
-        bodyPath = time_dir / f"{bookId}_body.txt"
-
-        with open(headerPath, "w", encoding="utf-8") as file:
-            file.write(headerContent.strip())
-        with open (bodyPath, "w", encoding="utf-8") as file:
-            file.write(bodyContent.strip())
-        return str(headerPath), str(bodyPath)
+        pass
