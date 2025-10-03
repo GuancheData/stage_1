@@ -4,6 +4,7 @@ import re
 import sqlite3
 from indexer.IndexedBooksCount import IndexedBooksCount
 import json
+import csv
 
 
 class MetadataParser:
@@ -67,16 +68,42 @@ class MetadataParser:
         for f in files:
             fileMatch = re.search(r"^(\d+)_", f.name)
             if int(fileMatch.group(1)) >= int(self.bookCount.getId()):
-                if int(fileMatch.group(1)) >= int(self.bookCount.getId()):
-                    self.bookCount.increaseBookId()
-                    with f.open('r') as file:
-                        metadata = {}
-                        for line in file:
-                            match = pattern.search(line)
-                            if match:
-                                matchSplit = match.group(0).split(sep=":", maxsplit=1)
-                                metadata[matchSplit[0]] = matchSplit[1]
-                                print(f"found a match in {fileMatch.group(1)}")
-                        all_metadata[fileMatch.group(1)] = metadata
+                self.bookCount.increaseBookId()
+                with f.open('r') as file:
+                    metadata = {}
+                    for line in file:
+                        match = pattern.search(line)
+                        if match:
+                            matchSplit = match.group(0).split(sep=":", maxsplit=1)
+                            metadata[matchSplit[0]] = matchSplit[1]
+                            print(f"found a match in {fileMatch.group(1)}")
+                    all_metadata[fileMatch.group(1)] = metadata
         with open(jsonPath, 'a') as file:
             json.dump(all_metadata, file)
+
+    def parseMetadaCsv(self, csvPath):
+        route = Path(self.booksMetadataContentPath)
+        files = route.rglob(f'[0-9]*header.txt')
+        pattern = re.compile(r"Title:\s*(.+)|Author:\s*(.+)|Language:\s*(.+)")
+        for f in files:
+            fileMatch = re.search(r"^(\d+)_", f.name)
+            if int(fileMatch.group(1)) >= int(self.bookCount.getId()):
+                self.bookCount.increaseBookId()
+                with f.open('r') as file:
+                    metadata = {"id":fileMatch.group(1)}
+                    for line in file:
+                        match = pattern.search(line)
+                        if match:
+                            matchSplit = match.group(0).split(sep=":", maxsplit=1)
+                            metadata[matchSplit[0]] = matchSplit[1]
+                            print(f"found a match in {fileMatch.group(1)}")
+                file_exists = os.path.exists(csvPath)
+                fieldnames = list(metadata.keys())
+
+                with open(csvPath, 'a', newline='') as csvfile:
+                    writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
+
+                    if not file_exists:
+                        writer.writeheader()
+
+                    writer.writerow(metadata)
