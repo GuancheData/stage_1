@@ -98,7 +98,7 @@ class MetadataParser:
                             metadata[matchSplit[0]] = matchSplit[1]
                             print(f"found a match in {fileMatch.group(1)}")
                 file_exists = os.path.exists(csvPath)
-                fieldnames = list(metadata.keys())
+                fieldnames = ["id", "Title", "Author", "Language"]
 
                 with open(csvPath, 'a', newline='') as csvfile:
                     writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
