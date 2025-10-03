@@ -17,13 +17,20 @@ class BookStorageId(BookStorage):
 
         headerContent, bodyContent = contentSeparated
 
-        bookIdFormattedFirstHalfPath = self.outputDir / f"{bookId:04d}"[:2]
-        bookIdFormattedSecondHalfPath = bookIdFormattedFirstHalfPath / f"{bookId:04d}"[2:]
+        bookIdStr = f"{bookId:04d}"
 
-        bookIdFormattedSecondHalfPath.mkdir(parents=True, exist_ok=True)
+        if len(bookIdStr) > 4 and len(bookIdStr) % 2 != 0:
+            bookIdStr = f"0{bookIdStr}"
 
-        headerPath = bookIdFormattedSecondHalfPath / f"{bookId}_header.txt"
-        bodyPath = bookIdFormattedSecondHalfPath / f"{bookId}_body.txt"
+        parts = [bookIdStr[i:i+2] for i in range(0, len(bookIdStr), 2)]
+        path = self.outputDir
+        for part in parts:
+            path = path / part
+
+        path.mkdir(parents=True, exist_ok=True)
+
+        headerPath = path / f"{bookId}_header.txt"
+        bodyPath = path / f"{bookId}_body.txt"
 
         with open(headerPath, "w", encoding="utf-8") as file:
             file.write(headerContent.strip())

@@ -8,7 +8,8 @@ from BookStorageId import BookStorageId
 if __name__ == "__main__":
     counter = BookCounter("bookCounter.txt")
     requester = GutenbergRequest()
-    storage = BookStorageDate("datalake")
+    #storage = BookStorageDate("datalake")
+    storage = BookStorageId("datalake")
     scheduler = BookRequestSchedule()
 
     crawler = Crawler(counter, requester, storage, scheduler,  int(5))
