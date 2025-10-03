@@ -5,7 +5,7 @@ class BookCounter:
     def __init__(self, filePath):
         self.filePath = filePath
         if not os.path.exists(filePath):
-            f = open(self.filePath, "x")
+            open(self.filePath, "x")
             with open(self.filePath, "w") as file:
                 file.write("1")
 

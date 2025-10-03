@@ -1,7 +1,4 @@
-import os
 from datetime import datetime, timezone
-from pathlib import Path
-
 from crawler.src.main.python.BookStorage import BookStorage
 
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
@@ -18,6 +15,17 @@ class BookStorageDate(BookStorage):
 
         headerContent, bodyContent = contentSeparated
 
+        path = self.getBookPath()
+        headerPath = path / f"{bookId}_header.txt"
+        bodyPath = path / f"{bookId}_body.txt"
+
+        with open(headerPath, "w", encoding="utf-8") as file:
+            file.write(headerContent.strip())
+        with open (bodyPath, "w", encoding="utf-8") as file:
+            file.write(bodyContent.strip())
+        return str(headerPath), str(bodyPath)
+
+    def getBookPath(self):
         currentDate = datetime.now(timezone.utc).strftime('%Y%m%d')
         currentTime = datetime.now(timezone.utc).strftime('%H')
 
@@ -25,12 +33,4 @@ class BookStorageDate(BookStorage):
         time_dir = date_dir / currentTime
 
         time_dir.mkdir(parents=True, exist_ok=True)
-
-        headerPath = time_dir / f"{bookId}_header.txt"
-        bodyPath = time_dir / f"{bookId}_body.txt"
-
-        with open(headerPath, "w", encoding="utf-8") as file:
-            file.write(headerContent.strip())
-        with open (bodyPath, "w", encoding="utf-8") as file:
-            file.write(bodyContent.strip())
-        return str(headerPath), str(bodyPath)
+        return time_dir

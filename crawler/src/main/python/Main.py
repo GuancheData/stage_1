@@ -1,5 +1,5 @@
 from BookCounter import BookCounter
-from BookStorageDate import BookStorage, BookStorageDate
+from BookStorageDate import BookStorageDate
 from Crawler import Crawler
 from GutenbergRequest import GutenbergRequest
 from BookRequestSchedule import BookRequestSchedule
