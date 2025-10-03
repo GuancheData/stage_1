@@ -8,7 +8,7 @@ BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
 BOOK_END = "*** END OF THE PROJECT GUTENBERG EBOOK"
 class BookStorageDate(BookStorage):
     def __init__(self, outputDir = "datalake"):
-        super.__init__(self, outputDir)
+        super().__init__(outputDir)
 
     def save(self, bookId, content):
         contentSeparated = super().separateHeader(content)
