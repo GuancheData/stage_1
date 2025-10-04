@@ -1,5 +1,9 @@
 ## Virtual Enviroment
 .searchengine_venv/
 
+<<<<<<< HEAD
+## .idea Folder
+=======
 ## .idea File
+>>>>>>> origin/indexer
 .idea/
