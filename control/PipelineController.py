@@ -1,8 +1,7 @@
 from pathlib import Path
 
 from crawler.src.main.python.Crawler import Crawler
-from indexer.metadata.MetadataParser import MetadataParser
-from indexer.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
+from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
 
 
 class PipelineController:
@@ -39,6 +38,7 @@ class PipelineController:
 
     def index(self, ready_to_index):
         self.indexer.saveMetadata(ready_to_index)
+        ####
         for book_id in ready_to_index:
             with open(self.index_path, "a", encoding="utf-8") as f:
                 f.write(f"{book_id}\n")

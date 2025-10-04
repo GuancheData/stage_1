@@ -1,6 +1,6 @@
 import sqlite3
 
-from indexer.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
+from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
 
 class MetadataSQLiteDB(MetadataDatamartContainer):
     def __init__(self, parser, dbPath):

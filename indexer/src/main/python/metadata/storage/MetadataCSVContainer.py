@@ -1,7 +1,7 @@
 import csv
 import os
 
-from indexer.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
+from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
 
 class MetadataCSVContainer(MetadataDatamartContainer):
     def __init__(self, parser, csvPath):

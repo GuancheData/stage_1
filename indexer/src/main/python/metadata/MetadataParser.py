@@ -1,6 +1,5 @@
 import re
 from pathlib import Path
-from indexer.IndexedBooksCount import IndexedBooksCount
 
 class MetadataParser():
     def __init__(self, booksMetadataContentPath):
@@ -22,7 +21,6 @@ class MetadataParser():
                         print(f"[INDEX] Book {fileMatch.group(1)} successfully indexed.\n")
                     else:
                         print(f"[INDEX] No metadata found in book {fileMatch.group(1)}.")
-        print("Todos los metadatos encontrados:", all_metadata)
         return all_metadata
 
     def _extract_metadata(self, file):
