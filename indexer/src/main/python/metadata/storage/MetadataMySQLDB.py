@@ -27,6 +27,7 @@ class MetadataMySQLDB(MetadataDatamartContainer):
             )
         if metadataSet:
             print(f"Metadata saved in {self.dbConfig['database']}.db (MySQL)\n")
+            return self.extractLanguage(metadataSet)
 
     def insertMetadata(self, id, title, author, language):
         if id is None:

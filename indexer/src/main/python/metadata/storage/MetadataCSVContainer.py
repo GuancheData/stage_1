@@ -21,3 +21,4 @@ class MetadataCSVContainer(MetadataDatamartContainer):
                 writer.writerow(row)
         if len(all_metadata) != 0:
             print(f"Metadata saved in {self.csvPath}")
+        return self.extractLanguage(all_metadata)

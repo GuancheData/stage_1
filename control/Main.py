@@ -7,14 +7,14 @@ from indexer.src.main.python.metadata.storage.MetadataMySQLDB import MetadataMyS
     controller = PipelineController(total_books=50, metadata_storage_mode=MetadataSQLiteDB(MetadataParser("../control/datalake"), "METADATA.db"))
     controller.pipeline(books_to_download=43)'''
 
-'''if __name__ == '__main__':
+if __name__ == '__main__':
     pc = PipelineController(total_books=50, metadata_storage_mode=MetadataJSONContainer(MetadataParser("../control/datalake"), "METADATA.json"))
-    pc.pipeline(books_to_download=43)'''
+    pc.pipeline(books_to_download=43)
 
 '''if __name__ == '__main__':
     pc = PipelineController(total_books=50, metadata_storage_mode=MetadataCSVContainer(MetadataParser("../control/datalake"), "METADATA.csv"))
     pc.pipeline(books_to_download=43)'''
 
-if __name__ == '__main__':
+'''if __name__ == '__main__':
     pc = PipelineController(total_books=50, metadata_storage_mode=MetadataMySQLDB(MetadataParser("../control/datalake"), {'host': 'localhost', 'user': 'root', 'password': 'passwd', 'database': 'metadata'}))
-    pc.pipeline(books_to_download=43)
+    pc.pipeline(books_to_download=43)'''

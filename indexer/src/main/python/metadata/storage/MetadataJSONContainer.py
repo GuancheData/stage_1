@@ -24,3 +24,4 @@ class MetadataJSONContainer(MetadataDatamartContainer):
             if existing_metadata:
                 json.dump(existing_metadata, file, indent=2)
                 print(f"Metadata saved in {self.jsonPath}\n")
+        return self.extractLanguage(all_metadata)

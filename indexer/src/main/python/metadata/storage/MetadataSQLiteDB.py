@@ -16,6 +16,7 @@ class MetadataSQLiteDB(MetadataDatamartContainer):
                 language=metadata["Language"] if "Language" in metadata.keys() else None)
         if len(metadataSet.keys()) != 0:
             print(f"Metadata saved in {self.dbPath} (SQLite)\n")
+            return self.extractLanguage(metadataSet)
 
     def insertMetadata(self, id, title, author, language):
         if id is None:
