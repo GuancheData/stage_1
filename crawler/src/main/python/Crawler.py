@@ -1,26 +1,24 @@
+from crawler.src.main.python.BookStorageDate import BookStorageDate
+from crawler.src.main.python.BookStorageId import BookStorageId
+from crawler.src.main.python.GutenbergRequest import GutenbergRequest
+
 class Crawler:
-    def __init__(self, counter, requester, storage, scheduler, booksNumber, datalakeStructure="date"):
-        self.counter = counter
-        self.requester = requester
-        self.storage = storage
-        self.scheduler = scheduler
-        self.booksNumber = booksNumber
+    def __init__(self, datalakeStructure="date"):
+        self.requester = GutenbergRequest()
+        self.storage = BookStorageId() if datalakeStructure == "id" else BookStorageDate()
         self.datalake = datalakeStructure
 
-    def crawlBook(self):
-        bookId = self.counter.getId()
+    def crawlBook(self, bookId):
         content = self.requester.fetchBook(bookId)
 
         if content:
             path = self.storage.save(bookId, content)
             if path:
-                print(f"Book {bookId} saved at {path}")
+                print(f"[DOWNLOAD] Book {bookId} successfully found and saved at {path}", "\n")
+                return True
             else:
-                print(f"Book {bookId} not saved")
+                print(f"[DOWNLOAD] Book {bookId} not saved", "\n")
+                return False
         else:
-            print(f"Book {bookId} not found")
-
-        self.counter.increaseBookId()
-
-    def schedulerCrawl(self):
-        self.scheduler.scheduleTask(self.crawlBook, self.booksNumber)
+            print(f"[DOWNLOAD] Book {bookId} not found", "\n")
+            return False
