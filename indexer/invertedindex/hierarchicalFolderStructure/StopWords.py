@@ -18,17 +18,19 @@ class StopWords:
         booksBody = route.rglob("[0-9]*body.txt")
         stopWords = frozenset(stopwords.words("english"))
 
-
+        init_time = time.perf_counter()
         for f in booksBody:
-            init_time = time.perf_counter()
             with open(f, 'r', encoding='utf-8') as file:
                 fileMatch = re.search(r"^(\d+)_", f.name).group(1)
-                text = file.read()
-                tokens = word_tokenize(text)
-                filtered_tokens = [word.lower() for word in tokens if word.lower() not in stopWords and word.isalpha()]
-                freq = dict(Counter(filtered_tokens))
-                print(f"Procesando libro {fileMatch}: {len(freq)} palabras únicas")
-                self.database.insertInformation(fileMatch, freq)
-
-            final_time = time.perf_counter()
-            print(f"Tiempo total: {final_time - init_time:.2f} segundos")
+                wordPosition = 0
+                positionDict = {}
+                for line in file:
+                    tokens = word_tokenize(line)
+                    for token in tokens:
+                        if token.lower() not in stopWords and token.isalpha():
+                            word = token.lower()
+                            positionDict.setdefault(word, []).append(wordPosition)
+                        wordPosition += 1
+                self.database.insertInformation(fileMatch,positionDict)
+        final_time = time.perf_counter()
+        print(f"Tiempo total: {final_time - init_time:.2f} segundos")
