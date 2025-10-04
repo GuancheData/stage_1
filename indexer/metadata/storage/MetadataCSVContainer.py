@@ -8,8 +8,8 @@ class MetadataCSVContainer(MetadataDatamartContainer):
         super().__init__(parser)
         self.csvPath = csvPath
 
-    def saveMetadata(self):
-        all_metadata = self.parser.parseMetadata()
+    def saveMetadata(self, idSet):
+        all_metadata = self.parser.parseMetadata(idSet)
         file_exists = os.path.exists(self.csvPath)
         fieldnames = ["id", "Title", "Author", "Language"]
         with open(self.csvPath, 'a', newline='', encoding='utf-8') as csvfile:

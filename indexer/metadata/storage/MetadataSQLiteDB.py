@@ -7,15 +7,15 @@ class MetadataSQLiteDB(MetadataDatamartContainer):
         super().__init__(parser)
         self.dbPath = dbPath
 
-    def saveMetadata(self):
-        metadataSet = self.parser.parseMetadata()
+    def saveMetadata(self, idSet):
+        metadataSet = self.parser.parseMetadata(idSet)
         for id, metadata in metadataSet.items():
             self.insertMetadata(id=int(id),
                 title=metadata["Title"] if "Title" in metadata.keys() else None,
                 author=metadata["Author"] if "Author" in metadata.keys() else None,
                 language=metadata["Language"] if "Language" in metadata.keys() else None)
         if len(metadataSet.keys()) != 0:
-            print(f"Metadata saved in {self.dbPath}")
+            print(f"Metadata saved in {self.dbPath}\n")
 
     def insertMetadata(self, id, title, author, language):
         if id is None:

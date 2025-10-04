@@ -7,9 +7,9 @@ class MetadataJSONContainer(MetadataDatamartContainer):
         super().__init__(parser)
         self.jsonPath = jsonPath
 
-    def saveMetadata(self):
-        all_metadata = self.parser.parseMetadata()
+    def saveMetadata(self, idSet):
+        all_metadata = self.parser.parseMetadata(idSet)
         with open(self.jsonPath, 'a') as file:
             if all_metadata != {}:
                 json.dump(all_metadata, file)
-                print(f"Metadata saved in {self.jsonPath}")
+                print(f"Metadata saved in {self.jsonPath}\n")

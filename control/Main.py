@@ -1,5 +1,17 @@
 from control.PipelineController import PipelineController
+from indexer.metadata.MetadataParser import MetadataParser
+from indexer.metadata.storage.MetadataCSVContainer import MetadataCSVContainer
+from indexer.metadata.storage.MetadataJSONContainer import MetadataJSONContainer
+from indexer.metadata.storage.MetadataSQLiteDB import MetadataSQLiteDB
 
-if __name__ == '__main__':
-    controller = PipelineController(total_books=135)
-    controller.pipeline(books_to_download=20)
+'''if __name__ == '__main__':
+    controller = PipelineController(total_books=50, metadata_storage_mode=MetadataSQLiteDB(MetadataParser("../control/datalake"), "METADATA.db"))
+    controller.pipeline(books_to_download=43)'''
+
+'''if __name__ == '__main__':
+    pc = PipelineController(total_books=50, metadata_storage_mode=MetadataJSONContainer(MetadataParser("../control/datalake"), "METADATA.json"))
+    pc.pipeline(books_to_download=43)'''
+
+'''if __name__ == '__main__':
+    pc = PipelineController(total_books=50, metadata_storage_mode=MetadataCSVContainer(MetadataParser("../control/datalake"), "METADATA.csv"))
+    pc.pipeline(books_to_download=43)'''
