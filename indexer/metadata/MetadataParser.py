@@ -9,19 +9,17 @@ class MetadataParser():
         self.bookCount = IndexedBooksCount(bookCounterPath)
         self.pattern = re.compile(r"Title:\s*(.+)|Author:\s*(.+)|Language:\s*(.+)")
 
-    def parseMetadata(self):
+    def parseMetadata(self, idSet):
         route = Path(self.booksMetadataContentPath)
-        files = sorted(list(route.rglob(f'[0-9]*header.txt')), key=lambda x: int(x.name.split('_')[0]))
         all_metadata = {}
-        for f in files:
+        for f in route.rglob(f'[0-9]*header.txt'):
             fileMatch = re.search(r"^(\d+)_", f.name)
-            if int(fileMatch.group(1)) >= int(self.bookCount.getId()):
+            if int(fileMatch.group(1)) in idSet:
                 with f.open('r') as file:
                     metadata = self._extract_metadata(file)
                     if metadata:
                         print(f"found a match in {fileMatch.group(1)}: {metadata}")
                         all_metadata[fileMatch.group(1)] = metadata
-                self.bookCount.increaseBookId()
             print(f.name)
         print("Todos los metadatos encontrados:", all_metadata)
         return all_metadata
