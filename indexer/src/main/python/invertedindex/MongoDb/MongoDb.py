@@ -4,11 +4,11 @@ from indexer.src.main.python.invertedindex.InvertedIndexDatamartContainer import
 
 
 class MongoDB(InvertedIndexDatamartContainer):
-    def __init__(self, downloadedBooksPath, databaseName, colectionName):
+    def __init__(self, databaseName = "SearchEngineInvertedIndex", collectionName = "InvertedIndex", downloadedBooksPath = "../../../../datalake"):
         super().__init__(downloadedBooksPath)
         self.client = MongoClient('localhost')
         self.database = self.client[databaseName]
-        self.collection = self.database[colectionName]
+        self.collection = self.database[collectionName]
         self.collection.create_index("word", unique=True)
 
 

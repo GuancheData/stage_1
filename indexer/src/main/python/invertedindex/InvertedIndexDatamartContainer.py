@@ -30,7 +30,10 @@ class InvertedIndexDatamartContainer(ABC):
                 continue
             print(f"[INVERTED INDEX] Indexing book {fileMatch} ({language_references[fileMatch]})...")
             book_language = language_references[fileMatch].lower()
-            stopWords = frozenset(stopwords.words(book_language))
+            try:
+                stopWords = frozenset(stopwords.words(book_language))
+            except Exception as e:
+                continue
             wordPosition = 0
             positionDict = {}
             with f.open('r', encoding='utf-8') as file:

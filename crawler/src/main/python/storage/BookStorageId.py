@@ -1,9 +1,11 @@
-from crawler.src.main.python.BookStorage import BookStorage
+from crawler.src.main.python.storage.BookStorage import BookStorage
+
+from pathlib import Path
 
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
 BOOK_END = "*** END OF THE PROJECT GUTENBERG EBOOK"
 class BookStorageId(BookStorage):
-    def __init__(self, outputDir = "datalake"):
+    def __init__(self, outputDir = Path("../../../../datalake")):
         super().__init__(outputDir)
 
     def save(self, bookId, content):

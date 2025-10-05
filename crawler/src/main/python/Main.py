@@ -1,16 +1,8 @@
-from BookCounter import BookCounter
-from BookStorageDate import BookStorageDate
-from Crawler import Crawler
-from GutenbergRequest import GutenbergRequest
-from BookRequestSchedule import BookRequestSchedule
-from BookStorageId import BookStorageId
+from CrawlerController import CrawlerController
+from crawler.src.main.python.storage.BookStorageId import BookStorageId
 
 if __name__ == "__main__":
-    counter = BookCounter("bookCounter.txt")
-    requester = GutenbergRequest()
     #storage = BookStorageDate("datalake")
-    storage = BookStorageId("datalake")
-    scheduler = BookRequestSchedule()
 
-    crawler = Crawler(counter, requester, storage, scheduler,  int(5))
-    crawler.schedulerCrawl()
+    crawler = CrawlerController(50, datalakeStructure="id")
+    crawler.download(7)

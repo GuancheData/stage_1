@@ -5,8 +5,8 @@ from abc import ABC, abstractmethod
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
 BOOK_END = "*** END OF THE PROJECT GUTENBERG EBOOK"
 class BookStorage(ABC):
-    def __init__(self, outputDir = "datalake"):
-        self.outputDir = Path(outputDir)
+    def __init__(self, outputDir = Path("../../../../datalake")):
+        self.outputDir = outputDir
         if not os.path.exists(outputDir):
             os.makedirs(outputDir)
 
