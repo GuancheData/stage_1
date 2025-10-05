@@ -1,4 +1,5 @@
 from control.PipelineController import PipelineController
+from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
 from indexer.src.main.python.metadata.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.MetadataJSONContainer import MetadataJSONContainer
 from indexer.src.main.python.metadata.storage.MetadataMySQLDB import MetadataMySQLDB
@@ -8,7 +9,8 @@ from indexer.src.main.python.metadata.storage.MetadataMySQLDB import MetadataMyS
     controller.pipeline(books_to_download=43)'''
 
 if __name__ == '__main__':
-    pc = PipelineController(total_books=50, metadata_storage_mode=MetadataJSONContainer(MetadataParser("../control/datalake"), "METADATA.json"))
+    pc = PipelineController(total_books=10000, metadata_storage_mode=MetadataJSONContainer(MetadataParser("../control/datalake"), "METADATA.json"),
+                            inverted_index_storage_mode=MongoDB("../control/datalake", 'search-engine', 'invertedIndex'))
     pc.pipeline(books_to_download=43)
 
 '''if __name__ == '__main__':

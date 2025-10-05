@@ -1,14 +1,17 @@
 import os
 
+from indexer.src.main.python.invertedindex.InvertedIndexDatamartContainer import InvertedIndexDatamartContainer
 
-class HierarchicalFolderStructure:
-    def __init__(self, route):
+
+class HierarchicalFolderStructure(InvertedIndexDatamartContainer):
+    def __init__(self, downloadedBooksPath, route):
+        super().__init__(downloadedBooksPath)
         self.route = route
         os.makedirs(self.route, exist_ok=True)
         for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
             os.makedirs(os.path.join(self.route, letter), exist_ok=True)
 
-    def insertInformation(self, bookId, positionDict):
+    def saveIndexForBook(self, bookId, positionDict, language_references):
         files_data = {}
         for word, positions in positionDict.items():
             firstWord = word[0].upper()

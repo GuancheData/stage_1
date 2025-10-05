@@ -1,17 +1,20 @@
 from pymongo import MongoClient, UpdateOne
 
+from indexer.src.main.python.invertedindex.InvertedIndexDatamartContainer import InvertedIndexDatamartContainer
 
-class MongoDB:
-    def __init__(self, databaseName, colectionName):
+
+class MongoDB(InvertedIndexDatamartContainer):
+    def __init__(self, downloadedBooksPath, databaseName, colectionName):
+        super().__init__(downloadedBooksPath)
         self.client = MongoClient('localhost')
         self.database = self.client[databaseName]
         self.collection = self.database[colectionName]
         self.collection.create_index("word", unique=True)
 
 
-    def insertInformation(self, bookId, wordFrecuence):
+    def saveIndexForBook(self, bookId, positionDict, language_references):
         operaciones = []
-        for palabra, positions in wordFrecuence.items():
+        for palabra, positions in positionDict.items():
             operaciones.append(
                 UpdateOne(
                     {"word": palabra},

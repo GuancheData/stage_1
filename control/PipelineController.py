@@ -1,11 +1,13 @@
 from pathlib import Path
 
 from crawler.src.main.python.Crawler import Crawler
+from indexer.src.main.python.invertedindex.InvertedIndexDatamartContainer import InvertedIndexDatamartContainer
 from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
 
 
 class PipelineController:
-    def __init__(self, logs_path = Path("logs"), metadata_storage_mode = MetadataDatamartContainer, total_books = 1000):
+    def __init__(self, logs_path = Path("logs"), metadata_storage_mode = MetadataDatamartContainer,
+                 inverted_index_storage_mode = InvertedIndexDatamartContainer, total_books = 1000):
         self.total_books = total_books
         self.control_path = Path(logs_path)
         self.downloaded_path = logs_path / "downloaded_books.txt"
@@ -13,6 +15,7 @@ class PipelineController:
         self.index_path = logs_path / "indexed_books.txt"
         self.crawler = Crawler(datalakeStructure="id")
         self.indexer = metadata_storage_mode
+        self.inverted_index = inverted_index_storage_mode
         self.not_downloaded = set(range(1, self.total_books + 1)) - self.downloaded()
 
     def downloaded(self):
@@ -37,8 +40,8 @@ class PipelineController:
             print("[DOWNLOAD] These books could not be downloaded:", sorted(list(self.failed_to_download())))
 
     def index(self, ready_to_index):
-        self.indexer.saveMetadata(ready_to_index)
-        ####
+        language_references = self.indexer.saveMetadata(ready_to_index)
+        self.inverted_index.buildIndexForBooks(ready_to_index, language_references)
         for book_id in ready_to_index:
             with open(self.index_path, "a", encoding="utf-8") as f:
                 f.write(f"{book_id}\n")
