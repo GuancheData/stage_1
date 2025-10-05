@@ -11,6 +11,5 @@ class MetadataDatamartContainer(ABC):
     def extractLanguage(self, all_metadata):
         languages = {}
         for idx, metadata in all_metadata.items():
-            languages[idx] = (all_metadata[idx]["Language"]).lower()
-        print(languages)
+            languages[idx] = None if all_metadata[idx].get("Language") is None else all_metadata[idx].get("Language").lower()
         return languages
