@@ -8,7 +8,7 @@ from pathlib import Path
 
 from indexer.src.main.python.metadata.storage.csv.MetadataCSVContainer import MetadataCSVContainer
 
-DATALAKE_PATH = "control/datalake"
+
 downloads = "indexer/src/test/resources/insertion_speed.txt"
 
 def generateSet():
