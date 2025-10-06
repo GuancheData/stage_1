@@ -1,5 +1,4 @@
 import os
-from pathlib import Path
 from abc import ABC, abstractmethod
 
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"

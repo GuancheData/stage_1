@@ -1,38 +1,38 @@
 import mysql.connector
-from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
+from indexer.src.main.python.metadata.storage.metadata_datamart_container import MetadataDatamartContainer
 
 class MetadataMySQLDB(MetadataDatamartContainer):
-    def __init__(self, parser, dbConfig):
-        super().__init__(parser)
-        self.dbConfig = dbConfig
+    def __init__(self, metadata_parser, dbConfig):
+        super().__init__(metadata_parser)
+        self.db_config = dbConfig
         self._ensure_database_exists()
 
     def _ensure_database_exists(self):
-        config = self.dbConfig.copy()
+        config = self.db_config.copy()
         db_name = config.pop('database')
         conn = mysql.connector.connect(**config)
         cursor = conn.cursor()
         cursor.execute(f"CREATE DATABASE IF NOT EXISTS {db_name} CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;")
         conn.close()
-        self.dbConfig['database'] = db_name
+        self.db_config['database'] = db_name
 
-    def saveMetadata(self, idSet):
-        metadataSet = self.parser.parseMetadata(idSet)
-        for id, metadata in metadataSet.items():
-            self.insertMetadata(
+    def save_metadata(self, book_id_set):
+        metadata_set = self.metadata_parser.parse_metadata(book_id_set)
+        for id, metadata in metadata_set.items():
+            self.insert_metadata(
                 id=int(id),
                 title=metadata.get("Title"),
                 author=metadata.get("Author"),
                 language=metadata.get("Language")
             )
-        if metadataSet:
-            print(f"Metadata saved in {self.dbConfig['database']}.db (MySQL)\n")
-            return self.extractLanguage(metadataSet)
+        if metadata_set:
+            print(f"Metadata saved in {self.db_config['database']}.db (MySQL)\n")
+            return self.extract_language(metadata_set)
 
-    def insertMetadata(self, id, title, author, language):
+    def insert_metadata(self, id, title, author, language):
         if id is None:
             return "error"
-        with mysql.connector.connect(**self.dbConfig) as connection:
+        with mysql.connector.connect(**self.db_config) as connection:
             cursor = connection.cursor()
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS metadata (

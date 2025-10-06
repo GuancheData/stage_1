@@ -8,8 +8,8 @@ from pathlib import Path
 import mysql.connector
 
 import indexer.src.test.resources.mysql_credentials as credentials
-from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
-from indexer.src.main.python.metadata.storage.mysql.MetadataMySQLDB import MetadataMySQLDB
+from indexer.src.main.python.metadata.parser.metadata_parser import MetadataParser
+from indexer.src.main.python.metadata.storage.mysql.metadata_mysqldb import MetadataMySQLDB
 
 DATALAKE_PATH = r""  #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
@@ -45,7 +45,7 @@ def test_mysql_insertion_speed_benchmark():
         db = MetadataMySQLDB(MetadataParser(DATALAKE_PATH), {"host":credentials.MYSQL_HOST, "user":credentials.MYSQL_USER, "password":credentials.MYSQL_PASSWORD, "database":credentials.MYSQL_DATABASE})
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
-        db.saveMetadata(synthetic_set)
+        db.save_metadata(synthetic_set)
         sys.stdout = old_stdout
 
     n = 5

@@ -1,8 +1,8 @@
 from pathlib import Path
 
-from indexer.src.main.python.metadata.storage.mysql.MetadataMySQLDB import MetadataMySQLDB
-from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.HierarchicalFolderStructure import HierarchicalFolderStructure
-from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
+from indexer.src.main.python.metadata.storage.mysql.metadata_mysqldb import MetadataMySQLDB
+from indexer.src.main.python.inverted_index.hierarchical_folder_structure.hierarchical_folder_structure import HierarchicalFolderStructure
+from indexer.src.main.python.inverted_index.mongo_db.mongo_db import MongoDB
 
 class IndexerController():
     def __init__(self, metadata_storage_mode, inverted_index_storage_mode, logs_output_path):
@@ -26,11 +26,11 @@ class IndexerController():
         print(ready_to_index)
         if not ready_to_index:
             return False
-        language_references = self.indexer.saveMetadata(idSet=ready_to_index)
+        language_references = self.indexer.save_metadata(book_id_set=ready_to_index)
         print(language_references)
         if not language_references:
             return False
-        self.inverted_index.buildIndexForBooks(ready_to_index, language_references)
+        self.inverted_index.build_index_for_books(ready_to_index, language_references)
         for book_id in ready_to_index:
             with open(self.index_path, "a", encoding="utf-8") as f:
                 f.write(f"{book_id}\n")

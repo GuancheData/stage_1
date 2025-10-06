@@ -6,8 +6,8 @@ import os
 import gc
 from pathlib import Path
 
-from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
-from indexer.src.main.python.metadata.storage.json.MetadataJSONContainer import MetadataJSONContainer
+from indexer.src.main.python.metadata.parser.metadata_parser import MetadataParser
+from indexer.src.main.python.metadata.storage.json.metadata_json_container import MetadataJSONContainer
 
 DATALAKE_PATH = r""  #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
@@ -43,7 +43,7 @@ def test_json_insertion_speed_benchmark():
         db = MetadataJSONContainer(MetadataParser(DATALAKE_PATH), "./METADATA")
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
-        db.saveMetadata(synthetic_set)
+        db.save_metadata(synthetic_set)
         sys.stdout = old_stdout
 
     n = 5

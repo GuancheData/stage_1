@@ -7,10 +7,10 @@ import unittest
 from pathlib import Path
 from pymongo import MongoClient
 
-from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.HierarchicalFolderStructure import \
+from indexer.src.main.python.inverted_index.hierarchical_folder_structure.hierarchical_folder_structure import \
     HierarchicalFolderStructure
-from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
-from indexer.src.main.python.invertedindex.MonoliticStructure.MonoliticIndexer import MonoliticIndexer
+from indexer.src.main.python.inverted_index.mongo_db.mongo_db import MongoDB
+from indexer.src.main.python.inverted_index.monolitic_structure.monolitic_indexer import MonoliticIndexer
 
 DATALAKE_PATH = r"C:\Users\fabio\PycharmProjects\stage_1_V3\datalake"
 INDEXING_SPEED_FILE = "indexer/src/test/resources/indexing_speed.txt"
@@ -82,7 +82,7 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             gc.collect()
             indexer = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH,
                                                   hierarchicalOutputFolderPath=output_h)
-            silent_run(lambda: indexer.buildIndexForBooks(self.synthetic_set, self.language_refs))
+            silent_run(lambda: indexer.build_index_for_books(self.synthetic_set, self.language_refs))
 
         avg_time = timeit.timeit(run_h, number=NUM_ITERATIONS) / NUM_ITERATIONS
         IndexingSpeedBenchmarkTest.results["HierarchicalFolderStructure"] = avg_time
@@ -92,7 +92,7 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         gc.collect()
         indexer_h = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH,
                                                 hierarchicalOutputFolderPath=output_h)
-        indexer_h.buildIndexForBooks(self.synthetic_set, self.language_refs)
+        indexer_h.build_index_for_books(self.synthetic_set, self.language_refs)
 
         if Path(output_h).exists():
             file_count = len(list(Path(output_h).rglob("*.txt")))
@@ -109,8 +109,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         def run_m():
             cleanup_directory(output_m)
             gc.collect()
-            indexer = MonoliticIndexer(output_json_path=output_m, downloaded_books_path=DATALAKE_PATH)
-            silent_run(lambda: indexer.buildIndexForBooks(self.synthetic_set, self.language_refs))
+            indexer = MonoliticIndexer(inverted_index_output_path=output_m, datalake_path=DATALAKE_PATH)
+            silent_run(lambda: indexer.build_index_for_books(self.synthetic_set, self.language_refs))
 
         avg_time = timeit.timeit(run_m, number=NUM_ITERATIONS) / NUM_ITERATIONS
         IndexingSpeedBenchmarkTest.results["MonoliticIndexer"] = avg_time
@@ -118,8 +118,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         print(f"   Saving final output...")
         cleanup_directory(output_m)
         gc.collect()
-        indexer_m = MonoliticIndexer(output_json_path=output_m, downloaded_books_path=DATALAKE_PATH)
-        indexer_m.buildIndexForBooks(self.synthetic_set, self.language_refs)
+        indexer_m = MonoliticIndexer(inverted_index_output_path=output_m, datalake_path=DATALAKE_PATH)
+        indexer_m.build_index_for_books(self.synthetic_set, self.language_refs)
 
         json_file = Path(output_m) / "inverted_index.json"
         if json_file.exists():
@@ -138,8 +138,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             def run_mongo():
                 cleanup_mongodb(db_name)
                 gc.collect()
-                indexer = MongoDB(databaseName=db_name, collectionName="benchmark", downloadedBooksPath=DATALAKE_PATH)
-                silent_run(lambda: indexer.buildIndexForBooks(self.synthetic_set, self.language_refs))
+                indexer = MongoDB(database_name=db_name, collection_name="benchmark", datalake_path=DATALAKE_PATH)
+                silent_run(lambda: indexer.build_index_for_books(self.synthetic_set, self.language_refs))
 
             avg_time = timeit.timeit(run_mongo, number=NUM_ITERATIONS) / NUM_ITERATIONS
             IndexingSpeedBenchmarkTest.results["MongoDB"] = avg_time
@@ -147,8 +147,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             print(f"   Saving final output...")
             cleanup_mongodb(db_name)
             gc.collect()
-            indexer_mongo = MongoDB(databaseName=db_name, collectionName="benchmark", downloadedBooksPath=DATALAKE_PATH)
-            indexer_mongo.buildIndexForBooks(self.synthetic_set, self.language_refs)
+            indexer_mongo = MongoDB(database_name=db_name, collection_name="benchmark", datalake_path=DATALAKE_PATH)
+            indexer_mongo.build_index_for_books(self.synthetic_set, self.language_refs)
             print(f"   Data stored in MongoDB database '{db_name}'")
 
             if CLEANUP_AFTER_TEST:

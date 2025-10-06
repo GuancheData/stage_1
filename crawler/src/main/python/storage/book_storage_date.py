@@ -1,7 +1,5 @@
 from datetime import datetime, timezone
-from crawler.src.main.python.storage.BookStorage import BookStorage
-
-from pathlib import Path
+from crawler.src.main.python.storage.book_storage import BookStorage
 
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
 BOOK_END = "*** END OF THE PROJECT GUTENBERG EBOOK"
