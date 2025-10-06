@@ -24,6 +24,8 @@ class MonoliticIndexer(InvertedIndexDatamartContainer):
                 'frequency': len(positions)
             }
 
+    def buildIndexForBooks(self, idSet, language_references):
+        super().buildIndexForBooks(idSet, language_references)
         self._save()
 
     def _save(self):
