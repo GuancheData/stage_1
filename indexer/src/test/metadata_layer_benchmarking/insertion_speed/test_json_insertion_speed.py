@@ -6,10 +6,11 @@ import os
 import gc
 from pathlib import Path
 
+from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.json.MetadataJSONContainer import MetadataJSONContainer
 
-DATALAKE_PATH = "control/datalake"
-downloads = "indexer/src/test/resources/insertion_speed.txt"
+DATALAKE_PATH = r"C:\UNIVERSIDAD\TERCER_ANYO\BIG_DATA\stage_1V7\datalake"  #your datalake path
+downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generateSet():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
@@ -39,7 +40,7 @@ def test_json_insertion_speed_benchmark():
     def recreate_json_db():
         setup_json()
         gc.collect()
-        db = MetadataJSONContainer(Path("METADATA"))
+        db = MetadataJSONContainer(MetadataParser(DATALAKE_PATH), Path("./METADATA"))
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         db.saveMetadata(synthetic_set)

@@ -8,10 +8,11 @@ from pathlib import Path
 import mysql.connector
 
 import indexer.src.test.resources.mysql_credentials as credentials
+from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.mysql.MetadataMySQLDB import MetadataMySQLDB
 
-DATALAKE_PATH = "control/datalake"
-downloads = "indexer/src/test/resources/insertion_speed.txt"
+DATALAKE_PATH = ""  #your datalake path
+downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generateSet():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
@@ -41,7 +42,7 @@ def test_mysql_insertion_speed_benchmark():
     def recreate_db():
         setup_db()
         gc.collect()
-        db = MetadataMySQLDB({"host":credentials.MYSQL_HOST, "user":credentials.MYSQL_USER, "password":credentials.MYSQL_PASSWORD, "database":credentials.MYSQL_DATABASE})
+        db = MetadataMySQLDB(MetadataParser(DATALAKE_PATH), {"host":credentials.MYSQL_HOST, "user":credentials.MYSQL_USER, "password":credentials.MYSQL_PASSWORD, "database":credentials.MYSQL_DATABASE})
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         db.saveMetadata(synthetic_set)

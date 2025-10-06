@@ -6,10 +6,12 @@ import os
 import gc
 from pathlib import Path
 
+from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.sqlite.MetadataSQLiteDB import MetadataSQLiteDB
 
-DATALAKE_PATH = "control/datalake"
-downloads = "indexer/src/test/resources/insertion_speed.txt"
+
+DATALAKE_PATH = ""  #your datalake path
+downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generateSet():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
@@ -39,7 +41,7 @@ def test_sqlite_insertion_speed_benchmark():
     def recreate_db():
         setup_db()
         gc.collect()
-        db = MetadataSQLiteDB(Path("METADATA"))
+        db = MetadataSQLiteDB(MetadataParser(DATALAKE_PATH), "./METADATA")
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         db.saveMetadata(synthetic_set)

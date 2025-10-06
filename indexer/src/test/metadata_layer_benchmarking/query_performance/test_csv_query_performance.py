@@ -10,7 +10,7 @@ from pathlib import Path
 from indexer.src.main.python.metadata.storage.csv.MetadataCSVContainer import MetadataCSVContainer
 
 DATALAKE_PATH = "control/datalake"
-downloads = "indexer/src/test/resources/insertion_speed.txt"
+downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generateSet():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()

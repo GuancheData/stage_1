@@ -6,10 +6,12 @@ import os
 import gc
 from pathlib import Path
 
+from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.csv.MetadataCSVContainer import MetadataCSVContainer
 
 
-downloads = "indexer/src/test/resources/insertion_speed.txt"
+downloads = r"indexer\src\test\resources\test_downloaded_books_reference.txt"
+DATALAKE_PATH = r"C:\UNIVERSIDAD\TERCER_ANYO\BIG_DATA\stage_1V7\datalake"  #your datalake path
 
 def generateSet():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
@@ -39,7 +41,7 @@ def test_csv_insertion_speed_benchmark():
     def recreate_csv_db():
         setup_csv()
         gc.collect()
-        db = MetadataCSVContainer(Path("METADATA"))
+        db = MetadataCSVContainer(MetadataParser(DATALAKE_PATH), "./METADATA")
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         db.saveMetadata(synthetic_set)
