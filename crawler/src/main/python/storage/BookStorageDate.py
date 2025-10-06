@@ -6,8 +6,8 @@ from pathlib import Path
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
 BOOK_END = "*** END OF THE PROJECT GUTENBERG EBOOK"
 class BookStorageDate(BookStorage):
-    def __init__(self, outputDir = Path("../../../../datalake")):
-        super().__init__(outputDir)
+    def __init__(self, datalakePath):
+        super().__init__(datalakePath)
 
     def save(self, bookId, content):
         contentSeparated = super().separateHeader(content)

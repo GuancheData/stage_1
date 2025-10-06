@@ -5,10 +5,10 @@ from abc import ABC, abstractmethod
 BOOK_START = "*** START OF THE PROJECT GUTENBERG EBOOK"
 BOOK_END = "*** END OF THE PROJECT GUTENBERG EBOOK"
 class BookStorage(ABC):
-    def __init__(self, outputDir = Path("../../../../datalake")):
-        self.outputDir = outputDir
-        if not os.path.exists(outputDir):
-            os.makedirs(outputDir)
+    def __init__(self, datalakePath):
+        self.outputDir = datalakePath
+        if not os.path.exists(datalakePath):
+            os.makedirs(datalakePath)
 
     def separateHeader(self, content):
         if BOOK_START not in content or BOOK_END not in content:

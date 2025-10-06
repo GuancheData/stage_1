@@ -5,12 +5,12 @@ from crawler.src.main.python.GutenbergRequest import GutenbergRequest
 from pathlib import Path
 
 class CrawlerController:
-    def __init__(self, total_books = 1000, datalakeStructure="date"):
+    def __init__(self, datalakePath, logs_Path, total_books = 1000, datalakeStructure="date"):
         self.requester = GutenbergRequest()
-        self.storage = BookStorageId() if datalakeStructure == "id" else BookStorageDate()
+        self.storage = BookStorageId(Path(datalakePath)) if datalakeStructure == "id" else BookStorageDate(Path(datalakePath))
         self.datalake = datalakeStructure
         self.total_books = total_books
-        self.logs_path = Path("../../../../control/logs")
+        self.logs_path = Path(logs_Path)
         self.control_path = self.logs_path
         self.downloaded_path = self.logs_path / "downloaded_books.txt"
         self.failed_to_download_path = self.logs_path / "failed_to_download_books.txt"
