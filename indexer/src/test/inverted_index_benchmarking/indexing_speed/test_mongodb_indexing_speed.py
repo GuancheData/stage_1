@@ -9,24 +9,24 @@ from pymongo import MongoClient
 from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
 
 DATALAKE_PATH = "datalake"
-INDEXING_SPEED_FILE = "indexer/src/test/resources/indexing_ids.txt"
+BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 NUM_ITERATIONS = 5
 CLEANUP_AFTER_TEST = True
 
 
 def generateSet():
-    insertion_file = Path(INDEXING_SPEED_FILE)
+    insertion_file = Path(BOOKS_IDS_FILE)
 
     if not insertion_file.exists():
-        print(f"ERROR: File {INDEXING_SPEED_FILE} does not exist")
+        print(f"ERROR: File {BOOKS_IDS_FILE} does not exist")
         return set()
 
     try:
         book_ids = set(int(x.strip()) for x in insertion_file.read_text().splitlines() if x.strip())
-        print(f"Using {len(book_ids)} books from {INDEXING_SPEED_FILE}")
+        print(f"Using {len(book_ids)} books from {BOOKS_IDS_FILE}")
         return book_ids
     except ValueError as e:
-        print(f"ERROR: Invalid book ID in {INDEXING_SPEED_FILE}: {e}")
+        print(f"ERROR: Invalid book ID in {BOOKS_IDS_FILE}: {e}")
         return set()
 
 

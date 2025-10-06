@@ -7,7 +7,7 @@ from pathlib import Path
 from indexer.src.main.python.invertedindex.MonoliticStructure.MonoliticIndexer import MonoliticIndexer
 
 DATALAKE_PATH = "datalake"
-BOOKS_IDS_FILE = "indexer/src/test/resources/indexing_ids.txt"
+BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 OUTPUT_PATH = "MONOLITIC_INDEX"
 CLEANUP_AFTER_TEST = True
 

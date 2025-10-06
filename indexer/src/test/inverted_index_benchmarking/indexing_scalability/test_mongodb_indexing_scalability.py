@@ -9,7 +9,7 @@ from pymongo import MongoClient
 from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
 
 DATALAKE_PATH = "datalake"
-INDEXING_SCALABILITY_FILE = "indexer/src/test/resources/indexing_ids.txt"
+BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 NUM_ITERATIONS = 3
 CLEANUP_AFTER_TEST = True
 
@@ -17,20 +17,20 @@ BOOK_SET_SIZES = [10, 50, 100]
 
 
 def generateSet(max_books=None):
-    insertion_file = Path(INDEXING_SCALABILITY_FILE)
+    insertion_file = Path(BOOKS_IDS_FILE)
 
     if not insertion_file.exists():
-        print(f"ERROR: File {INDEXING_SCALABILITY_FILE} does not exist")
+        print(f"ERROR: File {BOOKS_IDS_FILE} does not exist")
         return set()
 
     try:
         book_ids = set(int(x.strip()) for x in insertion_file.read_text().splitlines() if x.strip())
         if max_books:
             book_ids = set(list(book_ids)[:max_books])
-        print(f"Using {len(book_ids)} books from {INDEXING_SCALABILITY_FILE}")
+        print(f"Using {len(book_ids)} books from {BOOKS_IDS_FILE}")
         return book_ids
     except ValueError as e:
-        print(f"ERROR: Invalid book ID in {INDEXING_SCALABILITY_FILE}: {e}")
+        print(f"ERROR: Invalid book ID in {BOOKS_IDS_FILE}: {e}")
         return set()
 
 

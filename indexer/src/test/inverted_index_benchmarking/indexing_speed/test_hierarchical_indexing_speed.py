@@ -5,27 +5,28 @@ import gc
 import shutil
 import unittest
 from pathlib import Path
-from indexer.src.main.python.invertedindex.MonoliticStructure.MonoliticIndexer import MonoliticIndexer
+from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.HierarchicalFolderStructure import \
+    HierarchicalFolderStructure
 
 
 DATALAKE_PATH = "datalake"
-INDEXING_SPEED_FILE = "indexer/src/test/resources/indexing_ids.txt"
+BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 NUM_ITERATIONS = 5
 CLEANUP_AFTER_TEST = True
 
 def generateSet():
-    insertion_file = Path(INDEXING_SPEED_FILE)
+    insertion_file = Path(BOOKS_IDS_FILE)
 
     if not insertion_file.exists():
-        print(f"ERROR: File {INDEXING_SPEED_FILE} does not exist")
+        print(f"ERROR: File {BOOKS_IDS_FILE} does not exist")
         return set()
 
     try:
         book_ids = set(int(x.strip()) for x in insertion_file.read_text().splitlines() if x.strip())
-        print(f"Using {len(book_ids)} books from {INDEXING_SPEED_FILE}")
+        print(f"Using {len(book_ids)} books from {BOOKS_IDS_FILE}")
         return book_ids
     except ValueError as e:
-        print(f"ERROR: Invalid book ID in {INDEXING_SPEED_FILE}: {e}")
+        print(f"ERROR: Invalid book ID in {BOOKS_IDS_FILE}: {e}")
         return set()
 
 def generateLanguageReferences(book_ids):
@@ -55,33 +56,32 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         cls.language_refs = generateLanguageReferences(cls.synthetic_set)
         cls.results = {}
 
-    def test_monolitic_indexing_speed(self):
-        print("[2/3] Testing MonoliticIndexer...")
-        output_m = "MONOLITIC_INDEX"
+    def test_hierarchical_indexing_speed(self):
+        print("\n[1/3] Testing HierarchicalFolderStructure...")
+        output_h = r"C:\Users\fabio\PycharmProjects\stage_1\indexer\src\test\inverted_index_benchmarking\IndexingSpeed/HIERARCHICAL_INDEX"
 
-        def run_m():
-            cleanup_directory(output_m)
+        def run_h():
+            cleanup_directory(output_h)
             gc.collect()
-            indexer = MonoliticIndexer(output_json_path=output_m, downloaded_books_path=DATALAKE_PATH)
+            indexer = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, hierarchicalOutputFolderPath=output_h)
             silent_run(lambda: indexer.buildIndexForBooks(self.synthetic_set, self.language_refs))
 
-        avg_time = timeit.timeit(run_m, number=NUM_ITERATIONS) / NUM_ITERATIONS
-        IndexingSpeedBenchmarkTest.results["MonoliticIndexer"] = avg_time
+        avg_time = timeit.timeit(run_h, number=NUM_ITERATIONS) / NUM_ITERATIONS
+        IndexingSpeedBenchmarkTest.results["HierarchicalFolderStructure"] = avg_time
 
         print(f"   Saving final output...")
-        cleanup_directory(output_m)
+        cleanup_directory(output_h)
         gc.collect()
-        indexer_m = MonoliticIndexer(output_json_path=output_m, downloaded_books_path=DATALAKE_PATH)
-        indexer_m.buildIndexForBooks(self.synthetic_set, self.language_refs)
+        indexer_h = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, hierarchicalOutputFolderPath=output_h)
+        indexer_h.buildIndexForBooks(self.synthetic_set, self.language_refs)
 
-        json_file = Path(output_m) / "inverted_index.json"
-        if json_file.exists():
-            size = json_file.stat().st_size / (1024 * 1024)
-            print(f"   Created inverted_index.json ({size:.2f} MB)")
-            self.assertTrue(json_file.exists(), "inverted_index.json should be created")
+        if Path(output_h).exists():
+            file_count = len(list(Path(output_h).rglob("*.txt")))
+            print(f"   Created {file_count} .txt files in {output_h}/")
+            self.assertGreater(file_count, 0, "Should create at least one .txt file")
 
         if CLEANUP_AFTER_TEST:
-            cleanup_directory(output_m)
+            cleanup_directory(output_h)
 
     @classmethod
     def tearDownClass(cls):
@@ -95,8 +95,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
 
         if CLEANUP_AFTER_TEST:
             print("Cleaning up generated files...")
-            cleanup_directory("MONOLITIC_INDEX")
-            print("   Removed MONOLITIC_INDEX/")
+            cleanup_directory("HIERARCHICAL_INDEX")
+            print("   Removed HIERARCHICAL_INDEX/")
 
 if __name__ == '__main__':
     unittest.main(verbosity=2)

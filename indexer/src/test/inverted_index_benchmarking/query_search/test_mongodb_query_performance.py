@@ -6,7 +6,7 @@ from pymongo import MongoClient
 from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
 
 DATALAKE_PATH = "datalake"
-BOOKS_IDS_FILE = "indexer/src/test/resources/indexing_ids.txt"
+BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 DB_NAME = "BENCHMARK_INVERTED_INDEX"
 COLLECTION_NAME = "benchmark"
 CLEANUP_AFTER_TEST = True

@@ -8,7 +8,7 @@ from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.Hierarchi
     HierarchicalFolderStructure
 
 DATALAKE_PATH = "datalake"
-BOOKS_IDS_FILE = "indexer/src/test/resources/indexing_ids.txt"
+BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 OUTPUT_PATH = "HIERARCHICAL_INDEX"
 CLEANUP_AFTER_TEST = True
 
