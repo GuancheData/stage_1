@@ -4,7 +4,7 @@ from indexer.src.main.python.invertedindex.InvertedIndexDatamartContainer import
 
 
 class MongoDB(InvertedIndexDatamartContainer):
-    def __init__(self, databaseName = "SearchEngineInvertedIndex", collectionName = "InvertedIndex", downloadedBooksPath = "../../../../datalake"):
+    def __init__(self, downloadedBooksPath, databaseName = "SearchEngineInvertedIndex", collectionName = "InvertedIndex"):
         super().__init__(downloadedBooksPath)
         self.client = MongoClient('localhost')
         self.database = self.client[databaseName]

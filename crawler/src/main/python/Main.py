@@ -5,4 +5,4 @@ if __name__ == "__main__":
     #storage = BookStorageDate("datalake")
 
     crawler = CrawlerController(50, datalakeStructure="id")
-    crawler.download(7)
+    crawler.download(15)

@@ -47,31 +47,3 @@ class InvertedIndexDatamartContainer(ABC):
             self.saveIndexForBook(fileMatch, positionDict, language_references)
         final_time = time.perf_counter()
         print(f"[INVERTED INDEX] Total indexing time: {final_time - init_time:.2f} segundos")
-
-
-"""
-FUNCION INICIAL
-
-    def buildIndexForBooks(self, language_references):
-        route = Path(self.downloadedBooksPath)
-        booksBody = route.rglob("[0-9]*body.txt")
-        init_time = time.perf_counter()
-        for f in booksBody:
-            fileMatch = re.search(r"^(\d+)_", f.name).group(1)
-            if fileMatch in language_references:
-                book_language = language_references[fileMatch]
-                stopWords = frozenset(stopwords.words(book_language))
-                with open(f, 'r', encoding='utf-8') as file:
-                    wordPosition = 0
-                    positionDict = {}
-                    for line in file:
-                        tokens = word_tokenize(line)
-                        for token in tokens:
-                            if token.isalpha() and token.lower() not in stopWords:
-                                word = token.lower()
-                                positionDict.setdefault(word, []).append(wordPosition)
-                            wordPosition += 1
-                    self.saveIndexForBook(fileMatch, positionDict, language_references)
-        final_time = time.perf_counter()
-        print(f"Tiempo total: {final_time - init_time:.2f} segundos")
-"""

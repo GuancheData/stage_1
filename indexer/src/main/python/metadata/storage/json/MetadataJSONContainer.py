@@ -5,8 +5,8 @@ from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import M
 from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 
 class MetadataJSONContainer(MetadataDatamartContainer):
-    def __init__(self, json_path = Path("../../../../Metadata")):
-        super().__init__()
+    def __init__(self, parser, json_path):
+        super().__init__(parser)
         self.jsonPath = json_path
         self.jsonFilePath = self.jsonPath / "metadata.json"
 

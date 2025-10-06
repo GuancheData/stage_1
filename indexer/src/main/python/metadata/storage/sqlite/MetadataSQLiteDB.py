@@ -5,8 +5,8 @@ from pathlib import Path
 from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
 
 class MetadataSQLiteDB(MetadataDatamartContainer):
-    def __init__(self, dbPath = "../../../../Metadata"):
-        super().__init__()
+    def __init__(self, parser, dbPath):
+        super().__init__(parser)
         self.dbPath = Path(dbPath)
         self.dbFilePath = self.dbPath / "metadata.db"
 

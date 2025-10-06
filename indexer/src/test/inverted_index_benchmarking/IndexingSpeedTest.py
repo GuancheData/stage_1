@@ -80,7 +80,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         def run_h():
             cleanup_directory(output_h)
             gc.collect()
-            indexer = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, route=output_h)
+            indexer = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH,
+                                                  hierarchicalOutputFolderPath=output_h)
             silent_run(lambda: indexer.buildIndexForBooks(self.synthetic_set, self.language_refs))
 
         avg_time = timeit.timeit(run_h, number=NUM_ITERATIONS) / NUM_ITERATIONS
@@ -89,7 +90,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         print(f"   Saving final output...")
         cleanup_directory(output_h)
         gc.collect()
-        indexer_h = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, route=output_h)
+        indexer_h = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH,
+                                                hierarchicalOutputFolderPath=output_h)
         indexer_h.buildIndexForBooks(self.synthetic_set, self.language_refs)
 
         if Path(output_h).exists():

@@ -5,12 +5,12 @@ from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.Hierarchi
 from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
 
 class IndexerController():
-    def __init__(self, metadata_storage_mode, inverted_index_storage_mode = MongoDB()):
-        self.logs_path = Path("../../../../control/logs")
-        self.control_path = self.logs_path
-        self.downloaded_path = self.logs_path / "downloaded_books.txt"
-        self.failed_to_download_path = self.logs_path / "failed_to_download_books.txt"
-        self.index_path = self.logs_path / "indexed_books.txt"
+    def __init__(self, metadata_storage_mode, inverted_index_storage_mode, logs_output_path):
+        self.logs_output_path = Path(logs_output_path)
+        self.control_path = self.logs_output_path
+        self.downloaded_path = self.logs_output_path / "downloaded_books.txt"
+        self.failed_to_download_path = self.logs_output_path / "failed_to_download_books.txt"
+        self.index_path = self.logs_output_path / "indexed_books.txt"
         self.indexer = metadata_storage_mode
         self.inverted_index = inverted_index_storage_mode
 
@@ -23,9 +23,9 @@ class IndexerController():
     def index(self):
         self.control_path.mkdir(parents=True, exist_ok=True)
         ready_to_index = self._downloaded() - self._indexed()
+        print(ready_to_index)
         if not ready_to_index:
             return False
-        print(ready_to_index)
         language_references = self.indexer.saveMetadata(idSet=ready_to_index)
         print(language_references)
         if not language_references:

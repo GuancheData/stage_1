@@ -6,9 +6,9 @@ from indexer.src.main.python.invertedindex.InvertedIndexDatamartContainer import
 
 
 class HierarchicalFolderStructure(InvertedIndexDatamartContainer):
-    def __init__(self, downloadedBooksPath = "../../../../datalake", route = "../../../../Inverted_index"):
+    def __init__(self, downloadedBooksPath, hierarchicalOutputFolderPath):
         super().__init__(downloadedBooksPath)
-        self.route = Path(route)
+        self.route = Path(hierarchicalOutputFolderPath)
         self.route.mkdir(parents=True, exist_ok=True)
         for letter in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
             (self.route / letter).mkdir(exist_ok=True)

@@ -5,7 +5,7 @@ from indexer.src.main.python.invertedindex.InvertedIndexDatamartContainer import
 
 
 class MonoliticIndexer(InvertedIndexDatamartContainer):
-    def __init__(self, output_json_path = "../../../../Inverted_index", downloaded_books_path = "../../../../datalake"):
+    def __init__(self, output_json_path, downloaded_books_path):
         super().__init__(downloaded_books_path)
         self.output_json_path = output_json_path
         self.output_json_file_path = Path(self.output_json_path) / "inverted_index.json"

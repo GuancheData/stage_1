@@ -2,8 +2,8 @@ import mysql.connector
 from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
 
 class MetadataMySQLDB(MetadataDatamartContainer):
-    def __init__(self, dbConfig):
-        super().__init__()
+    def __init__(self, parser, dbConfig):
+        super().__init__(parser)
         self.dbConfig = dbConfig
         self._ensure_database_exists()
 

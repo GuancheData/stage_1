@@ -5,8 +5,8 @@ from pathlib import Path
 from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
 
 class MetadataCSVContainer(MetadataDatamartContainer):
-    def __init__(self, csvPath = "../../../../Metadata"):
-        super().__init__()
+    def __init__(self, parser, csvPath):
+        super().__init__(parser)
         self.csvPath = Path(csvPath)
         self.csvFilePath = self.csvPath / "metadata.csv"
 
