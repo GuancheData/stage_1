@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-from indexer.src.main.python.metadata.MetadataParser import MetadataParser
+from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 
 class MetadataDatamartContainer(ABC):
     def __init__(self, parser = MetadataParser()):

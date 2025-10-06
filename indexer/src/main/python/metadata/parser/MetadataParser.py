@@ -2,7 +2,7 @@ import re
 from pathlib import Path
 
 class MetadataParser():
-    def __init__(self, booksMetadataContentPath):
+    def __init__(self, booksMetadataContentPath = "./control/datalake"):
         self.booksMetadataContentPath = booksMetadataContentPath
         self.pattern = re.compile(r"Title:\s*(.+)|Author:\s*(.+)|Language:\s*(.+)")
 

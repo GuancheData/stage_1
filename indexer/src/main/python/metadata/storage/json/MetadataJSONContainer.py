@@ -2,7 +2,7 @@ import json
 import os
 from pathlib import Path
 from indexer.src.main.python.metadata.storage.MetadataDatamartContainer import MetadataDatamartContainer
-from indexer.src.main.python.metadata.MetadataParser import MetadataParser
+from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 
 class MetadataJSONContainer(MetadataDatamartContainer):
     def __init__(self, json_path = Path("../../../../Metadata")):

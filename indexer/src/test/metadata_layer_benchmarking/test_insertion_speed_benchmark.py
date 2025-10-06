@@ -24,8 +24,8 @@ def test_sqlite_insertion_speed_benchmark():
         gc.collect()
         for _ in range(5):
             try:
-                if os.path.exists("METADATA.db"):
-                    os.remove("METADATA.db")
+                if os.path.exists("./METADATA/metadata.db"):
+                    os.remove("./METADATA/metadata.db")
                 break
             except PermissionError:
                 time.sleep(0.1)
@@ -42,7 +42,7 @@ def test_sqlite_insertion_speed_benchmark():
     def recreate_db():
         setup_db()
         gc.collect()
-        db = MetadataSQLiteDB(MetadataParser(DATALAKE_PATH), "METADATA.db")
+        db = MetadataSQLiteDB(Path("METADATA"))
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         db.saveMetadata(synthetic_set)
@@ -54,6 +54,7 @@ def test_sqlite_insertion_speed_benchmark():
     print(f"Tiempo promedio por inserción (SQLite) para {len(synthetic_set)} libros: {total_time / n:.4f} segundos")
     print("-----------------------------------------------------------------")
     delete_db()
+    os.rmdir("./METADATA")
 
 def test_json_insertion_speed_benchmark():
     synthetic_set = generateSet()
@@ -62,8 +63,8 @@ def test_json_insertion_speed_benchmark():
         gc.collect()
         for _ in range(5):
             try:
-                if os.path.exists("METADATA.json"):
-                    os.remove("METADATA.json")
+                if os.path.exists("./METADATA/metadata.json"):
+                    os.remove("./METADATA/metadata.json")
                 break
             except PermissionError:
                 time.sleep(0.1)
@@ -80,7 +81,7 @@ def test_json_insertion_speed_benchmark():
     def recreate_json_db():
         setup_json()
         gc.collect()
-        db = MetadataJSONContainer(MetadataParser(DATALAKE_PATH), "METADATA.json")
+        db = MetadataJSONContainer(Path("METADATA"))
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         db.saveMetadata(synthetic_set)
@@ -92,6 +93,7 @@ def test_json_insertion_speed_benchmark():
     print(f"Tiempo promedio por inserción (JSON) para {len(synthetic_set)} libros: {total_time_json / n:.4f} segundos")
     print("-----------------------------------------------------------------")
     delete_json()
+    os.rmdir("./METADATA")
 
 
 '''def test_csv_save_metadata(benchmark):

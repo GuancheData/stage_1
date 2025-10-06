@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from indexer.src.main.python.metadata.storage.MetadataMySQLDB import MetadataMySQLDB
+from indexer.src.main.python.metadata.storage.mysql.MetadataMySQLDB import MetadataMySQLDB
 from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.HierarchicalFolderStructure import HierarchicalFolderStructure
 from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
 
