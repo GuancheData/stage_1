@@ -37,7 +37,7 @@ class MetadataMySQLDB(MetadataDatamartContainer):
             cursor.execute("""
                 CREATE TABLE IF NOT EXISTS metadata (
                     id INT PRIMARY KEY,
-                    title VARCHAR(255) NOT NULL,
+                    title TEXT NOT NULL,
                     author VARCHAR(255),
                     language VARCHAR(255)
                 );
