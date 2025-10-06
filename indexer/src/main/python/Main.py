@@ -11,6 +11,6 @@ from indexer.src.main.python.metadata.storage.sqlite.MetadataSQLiteDB import Met
 
 
 if __name__ == '__main__':
-    indexer = IndexerController(MetadataCSVContainer(MetadataParser(sys.argv[0]), sys.argv[1]),
-                                MongoDB(sys.argv[0]), sys.argv[2])
+    indexer = IndexerController(MetadataCSVContainer(MetadataParser(sys.argv[1]), sys.argv[2]),
+                                MongoDB(sys.argv[1]), sys.argv[3])
     indexer.index()
