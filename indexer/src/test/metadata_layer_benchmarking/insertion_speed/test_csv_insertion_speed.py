@@ -10,8 +10,8 @@ from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParse
 from indexer.src.main.python.metadata.storage.csv.MetadataCSVContainer import MetadataCSVContainer
 
 
-downloads = r"indexer\src\test\resources\test_downloaded_books_reference.txt"
-DATALAKE_PATH = r"C:\UNIVERSIDAD\TERCER_ANYO\BIG_DATA\stage_1V7\datalake"  #your datalake path
+downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
+DATALAKE_PATH = r""  #your datalake path
 
 def generateSet():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()

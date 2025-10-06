@@ -9,7 +9,7 @@ from pathlib import Path
 from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.json.MetadataJSONContainer import MetadataJSONContainer
 
-DATALAKE_PATH = r"C:\UNIVERSIDAD\TERCER_ANYO\BIG_DATA\stage_1V7\datalake"  #your datalake path
+DATALAKE_PATH = r"C:\Users\enriq\PycharmProjects\SearchEngine\datalake"  #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generateSet():

@@ -11,7 +11,7 @@ import indexer.src.test.resources.mysql_credentials as credentials
 from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.mysql.MetadataMySQLDB import MetadataMySQLDB
 
-DATALAKE_PATH = ""  #your datalake path
+DATALAKE_PATH = r"C:\Users\enriq\PycharmProjects\SearchEngine\datalake"  #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generateSet():
