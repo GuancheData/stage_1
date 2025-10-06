@@ -7,7 +7,7 @@ from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParse
 class MetadataJSONContainer(MetadataDatamartContainer):
     def __init__(self, parser, json_path):
         super().__init__(parser)
-        self.jsonPath = json_path
+        self.jsonPath = Path(json_path)
         self.jsonFilePath = self.jsonPath / "metadata.json"
 
     def saveMetadata(self, idSet):

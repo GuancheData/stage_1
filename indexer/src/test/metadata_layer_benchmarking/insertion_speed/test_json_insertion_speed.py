@@ -40,7 +40,7 @@ def test_json_insertion_speed_benchmark():
     def recreate_json_db():
         setup_json()
         gc.collect()
-        db = MetadataJSONContainer(MetadataParser(DATALAKE_PATH), Path("./METADATA"))
+        db = MetadataJSONContainer(MetadataParser(DATALAKE_PATH), "./METADATA")
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
         db.saveMetadata(synthetic_set)
