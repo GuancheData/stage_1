@@ -8,7 +8,7 @@ import gc
 from pathlib import Path
 
 from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
-from indexer.src.main.python.metadata.storage.csv.MetadataCSVContainer import MetadataCSVContainer
+from indexer.src.main.python.metadata.storage.csv.metadata_csv_container import MetadataCSVContainer
 
 DATALAKE_PATH = r"" #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
@@ -52,7 +52,7 @@ def test_csv_query_performance_benchmark():
     db = MetadataCSVContainer(MetadataParser(DATALAKE_PATH), "./METADATA")
     old_stdout = sys.stdout
     sys.stdout = io.StringIO()
-    db.saveMetadata(synthetic_set)
+    db.save_metadata(synthetic_set)
     sys.stdout = old_stdout
 
     n = 5

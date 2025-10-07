@@ -1,6 +1,6 @@
-from crawler.src.main.python.storage.BookStorageDate import BookStorageDate
-from crawler.src.main.python.storage.BookStorageId import BookStorageId
-from crawler.src.main.python.GutenbergRequest import GutenbergRequest
+from crawler.src.main.python.storage.book_storage_date import BookStorageDate
+from crawler.src.main.python.storage.book_storage_id import BookStorageId
+from crawler.src.main.python.gutenberg_request import GutenbergRequest
 
 from pathlib import Path
 
@@ -27,7 +27,7 @@ class CrawlerController:
         self.control_path.mkdir(parents=True, exist_ok=True)
 
         for _ in range(books_to_download):
-            if not self._crawl_books():
+            if not self._crawl_book():
                 break
 
         self.not_downloaded = set(range(1, self.total_books + 1)) - self._downloaded()
@@ -35,7 +35,7 @@ class CrawlerController:
         if self._failed_to_download():
             print("[DOWNLOAD] The following books could not be downloaded:", sorted(list(self._failed_to_download())))
 
-    def _crawl_books(self):
+    def _crawl_book(self):
         if self.not_downloaded:
             candidate_id = self.not_downloaded.pop()
             while candidate_id in self._failed_to_download():
@@ -47,7 +47,7 @@ class CrawlerController:
             print("[DOWNLOAD] There are no more books to download")
             return False
         print(f"[DOWNLOAD] Downloading new book with ID {candidate_id}...")
-        was_successful = self._crawl_book(candidate_id)
+        was_successful = self._fetch_and_save_book(candidate_id)
         if was_successful:
             with open(self.downloaded_path, "a", encoding="utf-8") as f:
                 f.write(f"{candidate_id}\n")
@@ -56,8 +56,8 @@ class CrawlerController:
                 f.write(f"{candidate_id}\n")
         return True
 
-    def _crawl_book(self, bookId):
-        content = self.requester.fetchBook(bookId)
+    def _fetch_and_save_book(self, bookId):
+        content = self.requester.fetch_book(bookId)
 
         if content:
             path = self.storage.save(bookId, content)
