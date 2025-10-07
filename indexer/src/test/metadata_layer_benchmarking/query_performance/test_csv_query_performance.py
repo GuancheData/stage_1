@@ -10,7 +10,7 @@ from pathlib import Path
 from indexer.src.main.python.metadata.parser.metadata_parser import MetadataParser
 from indexer.src.main.python.metadata.storage.csv.metadata_csv_container import MetadataCSVContainer
 
-DATALAKE_PATH = r"" #your datalake path
+DATALAKE_PATH = r"indexer/src/test/resources/datalake"
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generate_set():

@@ -11,7 +11,7 @@ from indexer.src.main.python.metadata.storage.csv.metadata_csv_container import 
 
 
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
-DATALAKE_PATH = r""  #your datalake path
+DATALAKE_PATH = r"indexer/src/test/resources/datalake"
 
 def generate_set():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
