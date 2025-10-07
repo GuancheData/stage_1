@@ -4,7 +4,6 @@ from pathlib import Path
 
 from indexer.src.main.python.inverted_index.inverted_index_datamart_container import InvertedIndexDatamartContainer
 
-
 class HierarchicalFolderStructure(InvertedIndexDatamartContainer):
     def __init__(self, datalake_path, inverted_index_output_folder_path):
         super().__init__(datalake_path)
@@ -17,9 +16,9 @@ class HierarchicalFolderStructure(InvertedIndexDatamartContainer):
         reserved_names = ["CON", "PRN", "AUX", "NUL", "COM1", "COM2", "COM3", "COM4", "COM5", "COM6", "COM7", "COM8", "COM9", "LPT1", "LPT2", "LPT3", "LPT4", "LPT5", "LPT6", "LPT7", "LPT8", "LPT9"]
         files_data = {}
         for word, positions in position_dict.items():
-            if word in reserved_names:
-                continue
             first_word = word[0].upper()
+            if word.upper() in reserved_names:
+                continue
             if not first_word.isalpha() or first_word not in "ABCDEFGHIJKLMNOPQRSTUVWXYZ":
                 continue
             file_path = os.path.join(self.route, first_word, f"{word}.txt")

@@ -1,9 +1,5 @@
 from pathlib import Path
 
-from indexer.src.main.python.metadata.storage.mysql.metadata_mysqldb import MetadataMySQLDB
-from indexer.src.main.python.inverted_index.hierarchical_folder_structure.hierarchical_folder_structure import HierarchicalFolderStructure
-from indexer.src.main.python.inverted_index.mongo_db.mongo_db import MongoDB
-
 class IndexerController():
     def __init__(self, metadata_storage_mode, inverted_index_storage_mode, logs_output_path):
         self.logs_output_path = Path(logs_output_path)
