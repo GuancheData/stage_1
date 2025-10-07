@@ -5,7 +5,7 @@ from pathlib import Path
 from pymongo import MongoClient
 from indexer.src.main.python.inverted_index.mongo_db.mongo_db import MongoDB
 
-DATALAKE_PATH = "datalake"
+DATALAKE_PATH = "indexer/src/test/resources/datalake"
 BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 DB_NAME = "BENCHMARK_INVERTED_INDEX"
 COLLECTION_NAME = "benchmark"

@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from indexer.src.main.python.inverted_index.monolitic_structure.monolitic_indexer import MonoliticIndexer
 
-DATALAKE_PATH = "datalake"
+DATALAKE_PATH = "indexer/src/test/resources/datalake"
 BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 OUTPUT_PATH = "MONOLITIC_INDEX"
 CLEANUP_AFTER_TEST = True

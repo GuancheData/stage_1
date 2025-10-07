@@ -15,7 +15,7 @@ from indexer.src.main.python.metadata.storage.sqlite.metadata_sqlitedb import Me
 downloads_medium_size = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 downloads_big_size = "indexer/src/test/resources/test_downloaded_books_reference_big.txt"
 downloads_small_size = "indexer/src/test/resources/test_downloaded_books_reference_small.txt"
-DATALAKE_PATH = r""  #your datalake path
+DATALAKE_PATH = r"indexer/src/test/resources/datalake"
 
 def generate_set(downloads):
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
