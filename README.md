@@ -14,7 +14,7 @@ A comprehensive search engine implementation for processing and indexing book co
 └── README.md        # Project overview and usage instructions (this file)
 ```
 ---
-
+ 
 ## Features
 
 - **Flexible Architecture:** Modular design with pluggable components
@@ -169,4 +169,5 @@ For metadata-related tests, if you intend to use MySQL, you need to fill in the 
 ---
 
 ## License 
+
 This project is licensed under GNU General Public License v3.0. See the [LICENSE](LICENSE) file for further details.
