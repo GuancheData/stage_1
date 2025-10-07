@@ -7,9 +7,10 @@ import os
 import gc
 from pathlib import Path
 
+from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
 from indexer.src.main.python.metadata.storage.csv.MetadataCSVContainer import MetadataCSVContainer
 
-DATALAKE_PATH = "control/datalake"
+DATALAKE_PATH = r"" #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
 def generateSet():
@@ -36,20 +37,32 @@ def test_csv_query_performance_benchmark():
             for row in reader:
                 if row.get('Author', '').strip() == author_name:
                     results.append(row)
-        print(results)
         return results
 
-    db = MetadataCSVContainer(Path("METADATA"))
+    def query_books_by_language_csv():
+        language = "English"
+        results = []
+        with open("METADATA/metadata.csv", newline='', encoding='utf-8') as csvfile:
+            reader = csv.DictReader(csvfile)
+            for row in reader:
+                if row.get('Language', '').strip() == language:
+                    results.append(row)
+        return results
+
+    db = MetadataCSVContainer(MetadataParser(DATALAKE_PATH), "./METADATA")
     old_stdout = sys.stdout
     sys.stdout = io.StringIO()
     db.saveMetadata(synthetic_set)
     sys.stdout = old_stdout
 
     n = 5
-    total_time = timeit.timeit(query_books_by_author_csv, number=n)
+    total_author_time = timeit.timeit(query_books_by_author_csv, number=n)
+    total_language_time = timeit.timeit(query_books_by_language_csv, number=n)
 
     print("\n--------------------------------------------------------------------------------------------------")
-    print(f"Tiempo promedio de query por autor ('Thomas Jefferson') en CSV para {len(synthetic_set)} libros: {total_time / n:.4f} segundos")
+    print(f"Tiempo promedio de query por autor ('Thomas Jefferson') en CSV para {len(synthetic_set)} libros: {total_author_time / n:.4f} segundos")
+    print("--------------------------------------------------------------------------------------------------")
+    print(f"Tiempo promedio de query por idioma ('English') en CSV para {len(synthetic_set)} libros: {total_language_time / n:.4f} segundos")
     print("--------------------------------------------------------------------------------------------------")
 
     delete_csv()
