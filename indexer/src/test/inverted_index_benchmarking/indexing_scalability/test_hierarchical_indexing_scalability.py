@@ -81,8 +81,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             def run_h():
                 cleanup_directory(output_h)
                 gc.collect()
-                indexer = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, hierarchicalOutputFolderPath=output_h)
-                silent_run(lambda: indexer.buildIndexForBooks(synthetic_set, language_refs))
+                indexer = HierarchicalFolderStructure(datalake_path=DATALAKE_PATH, inverted_index_output_folder_path=output_h)
+                silent_run(lambda: indexer.build_index_for_books(synthetic_set, language_refs))
 
             print(f"   Running {NUM_ITERATIONS} iterations...")
             avg_time = timeit.timeit(run_h, number=NUM_ITERATIONS) / NUM_ITERATIONS
@@ -92,8 +92,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             print(f"   Saving final output...")
             cleanup_directory(output_h)
             gc.collect()
-            indexer_h = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, hierarchicalOutputFolderPath=output_h)
-            indexer_h.buildIndexForBooks(synthetic_set, language_refs)
+            indexer_h = HierarchicalFolderStructure(datalake_path=DATALAKE_PATH, inverted_index_output_folder_path=output_h)
+            indexer_h.build_index_for_books(synthetic_set, language_refs)
 
             if Path(output_h).exists():
                 file_count = len(list(Path(output_h).rglob("*.txt")))

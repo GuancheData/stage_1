@@ -70,8 +70,8 @@ class MonoliticQueryPerformanceTest(unittest.TestCase):
         cleanup_directory(OUTPUT_PATH)
         gc.collect()
 
-        cls.indexer = MonoliticIndexer(output_json_path=OUTPUT_PATH, downloaded_books_path=DATALAKE_PATH)
-        cls.indexer.buildIndexForBooks(cls.synthetic_set, cls.language_refs)
+        cls.indexer = MonoliticIndexer(datalake_path=DATALAKE_PATH, inverted_index_output_path=OUTPUT_PATH)
+        cls.indexer.build_index_for_books(cls.synthetic_set, cls.language_refs)
 
         index_file = Path(OUTPUT_PATH) / "inverted_index.json"
         if index_file.exists():

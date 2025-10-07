@@ -80,8 +80,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             def run_m():
                 cleanup_directory(output_m)
                 gc.collect()
-                indexer = MonoliticIndexer(output_json_path=output_m, downloaded_books_path=DATALAKE_PATH)
-                silent_run(lambda: indexer.buildIndexForBooks(synthetic_set, language_refs))
+                indexer = MonoliticIndexer(datalake_path=DATALAKE_PATH, inverted_index_output_path=output_m)
+                silent_run(lambda: indexer.build_index_for_books(synthetic_set, language_refs))
 
             print(f"   Running {NUM_ITERATIONS} iterations...")
             avg_time = timeit.timeit(run_m, number=NUM_ITERATIONS) / NUM_ITERATIONS
@@ -91,8 +91,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             print(f"   Saving final output...")
             cleanup_directory(output_m)
             gc.collect()
-            indexer_m = MonoliticIndexer(output_json_path=output_m, downloaded_books_path=DATALAKE_PATH)
-            indexer_m.buildIndexForBooks(synthetic_set, language_refs)
+            indexer_m = MonoliticIndexer(datalake_path=DATALAKE_PATH, inverted_index_output_path=output_m)
+            indexer_m.build_index_for_books(synthetic_set, language_refs)
 
             json_file = Path(output_m) / "inverted_index.json"
             if json_file.exists():

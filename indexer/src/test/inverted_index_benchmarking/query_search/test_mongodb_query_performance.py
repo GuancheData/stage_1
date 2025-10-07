@@ -76,8 +76,8 @@ class MongoDBQueryPerformanceTest(unittest.TestCase):
             gc.collect()
 
             cls.indexer = MongoDB(database_name=DB_NAME, collection_name=COLLECTION_NAME,
-                                  downloaded_books_path=DATALAKE_PATH)
-            cls.indexer.buildIndexForBooks(cls.synthetic_set, cls.language_refs)
+                                  datalake_path=DATALAKE_PATH)
+            cls.indexer.build_index_for_books(cls.synthetic_set, cls.language_refs)
 
             client = MongoClient('localhost', serverSelectionTimeoutMS=5000)
             db = client[DB_NAME]

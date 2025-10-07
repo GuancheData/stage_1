@@ -13,7 +13,7 @@ DATALAKE_PATH = "datalake"
 BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 NUM_ITERATIONS = 5
 CLEANUP_AFTER_TEST = True
-
+OUTPUT_H = "indexer/src/test/inverted_index_benchmarking/indexing_speed/HIERARCHICAL_INDEX"
 def generate_set():
     insertion_file = Path(BOOKS_IDS_FILE)
 
@@ -58,30 +58,29 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
 
     def test_hierarchical_indexing_speed(self):
         print("\n[1/3] Testing HierarchicalFolderStructure...")
-        output_h = r"C:\Users\fabio\PycharmProjects\stage_1\indexer\src\test\inverted_index_benchmarking\IndexingSpeed/HIERARCHICAL_INDEX"
 
         def run_h():
-            cleanup_directory(output_h)
+            cleanup_directory(OUTPUT_H)
             gc.collect()
-            indexer = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, hierarchicalOutputFolderPath=output_h)
-            silent_run(lambda: indexer.buildIndexForBooks(self.synthetic_set, self.language_refs))
+            indexer = HierarchicalFolderStructure(datalake_path=DATALAKE_PATH, inverted_index_output_folder_path=OUTPUT_H)
+            silent_run(lambda: indexer.build_index_for_books(self.synthetic_set, self.language_refs))
 
         avg_time = timeit.timeit(run_h, number=NUM_ITERATIONS) / NUM_ITERATIONS
         IndexingSpeedBenchmarkTest.results["HierarchicalFolderStructure"] = avg_time
 
         print(f"   Saving final output...")
-        cleanup_directory(output_h)
+        cleanup_directory(OUTPUT_H)
         gc.collect()
-        indexer_h = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, hierarchicalOutputFolderPath=output_h)
-        indexer_h.buildIndexForBooks(self.synthetic_set, self.language_refs)
+        indexer_h = HierarchicalFolderStructure(datalake_path=DATALAKE_PATH, inverted_index_output_folder_path=OUTPUT_H)
+        indexer_h.build_index_for_books(self.synthetic_set, self.language_refs)
 
-        if Path(output_h).exists():
-            file_count = len(list(Path(output_h).rglob("*.txt")))
-            print(f"   Created {file_count} .txt files in {output_h}/")
+        if Path(OUTPUT_H).exists():
+            file_count = len(list(Path(OUTPUT_H).rglob("*.txt")))
+            print(f"   Created {file_count} .txt files in {OUTPUT_H}/")
             self.assertGreater(file_count, 0, "Should create at least one .txt file")
 
         if CLEANUP_AFTER_TEST:
-            cleanup_directory(output_h)
+            cleanup_directory(OUTPUT_H)
 
     @classmethod
     def tearDownClass(cls):

@@ -80,9 +80,9 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             def run_mongo():
                 cleanup_mongodb(db_name)
                 gc.collect()
-                indexer = MongoDB(databaseName=db_name, collectionName="benchmark", downloadedBooksPath=DATALAKE_PATH)
+                indexer = MongoDB(database_name=db_name, collection_name="benchmark", datalake_path=DATALAKE_PATH)
                 try:
-                    silent_run(lambda: indexer.buildIndexForBooks(self.synthetic_set, self.language_refs))
+                    silent_run(lambda: indexer.build_index_for_books(self.synthetic_set, self.language_refs))
                 finally:
                     if hasattr(indexer, 'client') and indexer.client is not None:
                         indexer.client.close()
@@ -94,9 +94,10 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
             cleanup_mongodb(db_name)
             gc.collect()
 
-            indexer_mongo = MongoDB(databaseName=db_name, collectionName="benchmark", downloadedBooksPath=DATALAKE_PATH)
+            indexer_mongo = MongoDB(database_name=db_name, collection_name="benchmark", datalake_path=DATALAKE_PATH)
             try:
-                indexer_mongo.buildIndexForBooks(self.synthetic_set, self.language_refs)
+                indexer_mongo.build_index_for_books(self.synthetic_set, self.language_refs)
+                indexer_mongo.build_index_for_books(self.synthetic_set, self.language_refs)
                 print(f"   Data stored in MongoDB database '{db_name}'")
             finally:
                 if hasattr(indexer_mongo, 'client') and indexer_mongo.client is not None:

@@ -69,8 +69,8 @@ class HierarchicalQueryPerformanceTest(unittest.TestCase):
         cleanup_directory(OUTPUT_PATH)
         gc.collect()
 
-        cls.indexer = HierarchicalFolderStructure(downloadedBooksPath=DATALAKE_PATH, hierarchicalOutputFolderPath=OUTPUT_PATH)
-        cls.indexer.buildIndexForBooks(cls.synthetic_set, cls.language_refs)
+        cls.indexer = HierarchicalFolderStructure(datalake_path=DATALAKE_PATH, inverted_index_output_folder_path=OUTPUT_PATH)
+        cls.indexer.build_index_for_books(cls.synthetic_set, cls.language_refs)
         print("Index built successfully\n")
 
     def search_hierarchical(self, query_term):
