@@ -4,7 +4,7 @@ import shutil
 import unittest
 import json
 from pathlib import Path
-from indexer.src.main.python.invertedindex.MonoliticStructure.MonoliticIndexer import MonoliticIndexer
+from indexer.src.main.python.inverted_index.monolitic_structure.monolitic_indexer import MonoliticIndexer
 
 DATALAKE_PATH = "datalake"
 BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"

@@ -5,7 +5,7 @@ import gc
 import shutil
 import unittest
 from pathlib import Path
-from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.HierarchicalFolderStructure import \
+from indexer.src.main.python.inverted_index.hierarchical_folder_structure.hierarchical_folder_structure import \
     HierarchicalFolderStructure
 
 
@@ -14,7 +14,7 @@ BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
 NUM_ITERATIONS = 5
 CLEANUP_AFTER_TEST = True
 
-def generateSet():
+def generate_set():
     insertion_file = Path(BOOKS_IDS_FILE)
 
     if not insertion_file.exists():
@@ -29,7 +29,7 @@ def generateSet():
         print(f"ERROR: Invalid book ID in {BOOKS_IDS_FILE}: {e}")
         return set()
 
-def generateLanguageReferences(book_ids):
+def generate_language_references(book_ids):
     return {str(book_id): 'english' for book_id in book_ids}
 
 def cleanup_directory(path):
@@ -52,8 +52,8 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         print("=" * 70)
         print("INVERTED INDEX SPEED BENCHMARK")
         print("=" * 70)
-        cls.synthetic_set = generateSet()
-        cls.language_refs = generateLanguageReferences(cls.synthetic_set)
+        cls.synthetic_set = generate_set()
+        cls.language_refs = generate_language_references(cls.synthetic_set)
         cls.results = {}
 
     def test_hierarchical_indexing_speed(self):

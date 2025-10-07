@@ -8,16 +8,16 @@ from pathlib import Path
 import mysql.connector
 
 import indexer.src.test.resources.mysql_credentials as credentials
-from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
-from indexer.src.main.python.metadata.storage.mysql.MetadataMySQLDB import MetadataMySQLDB
-from indexer.src.main.python.metadata.storage.sqlite.MetadataSQLiteDB import MetadataSQLiteDB
+from indexer.src.main.python.metadata.parser.metadata_parser import MetadataParser
+from indexer.src.main.python.metadata.storage.mysql.metadata_mysqldb import MetadataMySQLDB
+from indexer.src.main.python.metadata.storage.sqlite.metadata_sqlitedb import MetadataSQLiteDB
 
 downloads_medium_size = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 downloads_big_size = "indexer/src/test/resources/test_downloaded_books_reference_big.txt"
 downloads_small_size = "indexer/src/test/resources/test_downloaded_books_reference_small.txt"
 DATALAKE_PATH = r""  #your datalake path
 
-def generateSet(downloads):
+def generate_set(downloads):
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
 
 def test_mysql_insertion_speed_benchmark():
@@ -50,13 +50,13 @@ def test_mysql_insertion_speed_benchmark():
                               "password": credentials.MYSQL_PASSWORD, "database": credentials.MYSQL_DATABASE})
         old_stdout = sys.stdout
         sys.stdout = io.StringIO()
-        db.saveMetadata(synthetic_set)
+        db.save_metadata(synthetic_set)
         sys.stdout = old_stdout
 
     n = 5
-    synthetic_set_medium_size = generateSet(downloads_medium_size)
-    synthetic_set_big_size = generateSet(downloads_big_size)
-    synthetic_set_small_size = generateSet(downloads_small_size)
+    synthetic_set_medium_size = generate_set(downloads_medium_size)
+    synthetic_set_big_size = generate_set(downloads_big_size)
+    synthetic_set_small_size = generate_set(downloads_small_size)
     total_small_time = timeit.timeit(lambda: recreate_mysql_db(synthetic_set_small_size), number=n)
     total_medium_time = timeit.timeit(lambda: recreate_mysql_db(synthetic_set_medium_size), number=n)
     total_big_time = timeit.timeit(lambda: recreate_mysql_db(synthetic_set_big_size), number=n)

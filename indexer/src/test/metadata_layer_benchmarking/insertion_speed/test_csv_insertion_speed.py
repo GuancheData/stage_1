@@ -13,11 +13,11 @@ from indexer.src.main.python.metadata.storage.csv.metadata_csv_container import 
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 DATALAKE_PATH = r""  #your datalake path
 
-def generateSet():
+def generate_set():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
 
 def test_csv_insertion_speed_benchmark():
-    synthetic_set = generateSet()
+    synthetic_set = generate_set()
 
     def delete_csv():
         gc.collect()

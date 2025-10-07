@@ -4,7 +4,7 @@ import shutil
 import unittest
 import json
 from pathlib import Path
-from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.HierarchicalFolderStructure import \
+from indexer.src.main.python.inverted_index.hierarchical_folder_structure.hierarchical_folder_structure import \
     HierarchicalFolderStructure
 
 DATALAKE_PATH = "datalake"
@@ -27,7 +27,7 @@ TEST_QUERIES = [
 
 NUM_QUERY_RUNS = 100
 
-def generateSet():
+def generate_set():
     insertion_file = Path(BOOKS_IDS_FILE)
 
     if not insertion_file.exists():
@@ -43,7 +43,7 @@ def generateSet():
         return set()
 
 
-def generateLanguageReferences(book_ids):
+def generate_language_references(book_ids):
     return {str(book_id): 'english' for book_id in book_ids}
 
 
@@ -60,8 +60,8 @@ class HierarchicalQueryPerformanceTest(unittest.TestCase):
         print("=" * 70)
         print("HIERARCHICAL FOLDER STRUCTURE - QUERY PERFORMANCE BENCHMARK")
         print("=" * 70)
-        cls.synthetic_set = generateSet()
-        cls.language_refs = generateLanguageReferences(cls.synthetic_set)
+        cls.synthetic_set = generate_set()
+        cls.language_refs = generate_language_references(cls.synthetic_set)
         cls.results = {}
 
         print(f"Building index for {len(cls.synthetic_set)} books...")

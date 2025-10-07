@@ -6,7 +6,7 @@ import shutil
 import unittest
 from pathlib import Path
 
-from indexer.src.main.python.invertedindex.hierarchicalFolderStructure.HierarchicalFolderStructure import \
+from indexer.src.main.python.inverted_index.hierarchical_folder_structure.hierarchical_folder_structure import \
     HierarchicalFolderStructure
 
 DATALAKE_PATH = "datalake"
@@ -17,7 +17,7 @@ CLEANUP_AFTER_TEST = True
 BOOK_SET_SIZES = [10, 50, 100]
 
 
-def generateSet(max_books=None):
+def generate_set(max_books=None):
     insertion_file = Path(BOOKS_IDS_FILE)
 
     if not insertion_file.exists():
@@ -35,7 +35,7 @@ def generateSet(max_books=None):
         return set()
 
 
-def generateLanguageReferences(book_ids):
+def generate_language_references(book_ids):
     return {str(book_id): 'english' for book_id in book_ids}
 
 
@@ -70,13 +70,13 @@ class IndexingSpeedBenchmarkTest(unittest.TestCase):
         for num_books in BOOK_SET_SIZES:
             print(f"\n[Testing with {num_books} books]")
 
-            synthetic_set = generateSet(max_books=num_books)
+            synthetic_set = generate_set(max_books=num_books)
 
             if len(synthetic_set) == 0:
                 print(f"   Skipping - no books available")
                 continue
 
-            language_refs = generateLanguageReferences(synthetic_set)
+            language_refs = generate_language_references(synthetic_set)
 
             def run_h():
                 cleanup_directory(output_h)

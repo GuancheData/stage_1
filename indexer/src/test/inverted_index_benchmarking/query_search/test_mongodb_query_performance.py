@@ -3,7 +3,7 @@ import gc
 import unittest
 from pathlib import Path
 from pymongo import MongoClient
-from indexer.src.main.python.invertedindex.MongoDb.MongoDb import MongoDB
+from indexer.src.main.python.inverted_index.mongo_db.mongo_db import MongoDB
 
 DATALAKE_PATH = "datalake"
 BOOKS_IDS_FILE = "indexer/src/test/resources/books_ids.txt"
@@ -27,7 +27,7 @@ TEST_QUERIES = [
 NUM_QUERY_RUNS = 100
 
 
-def generateSet():
+def generate_set():
     insertion_file = Path(BOOKS_IDS_FILE)
 
     if not insertion_file.exists():
@@ -43,11 +43,11 @@ def generateSet():
         return set()
 
 
-def generateLanguageReferences(book_ids):
+def generate_language_references(book_ids):
     return {str(book_id): 'english' for book_id in book_ids}
 
 
-def cleanup_mongodb(db_name):
+def cleanup_mongo_db(db_name):
     try:
         client = MongoClient('localhost', serverSelectionTimeoutMS=5000)
         client.drop_database(db_name)
@@ -63,8 +63,8 @@ class MongoDBQueryPerformanceTest(unittest.TestCase):
         print("=" * 70)
         print("MONGODB - QUERY PERFORMANCE BENCHMARK")
         print("=" * 70)
-        cls.synthetic_set = generateSet()
-        cls.language_refs = generateLanguageReferences(cls.synthetic_set)
+        cls.synthetic_set = generate_set()
+        cls.language_refs = generate_language_references(cls.synthetic_set)
         cls.results = {}
         cls.collection = None
 
@@ -72,11 +72,11 @@ class MongoDBQueryPerformanceTest(unittest.TestCase):
         print("(This is one-time setup, not part of query performance measurement)")
 
         try:
-            cleanup_mongodb(DB_NAME)
+            cleanup_mongo_db(DB_NAME)
             gc.collect()
 
-            cls.indexer = MongoDB(databaseName=DB_NAME, collectionName=COLLECTION_NAME,
-                                  downloadedBooksPath=DATALAKE_PATH)
+            cls.indexer = MongoDB(database_name=DB_NAME, collection_name=COLLECTION_NAME,
+                                  downloaded_books_path=DATALAKE_PATH)
             cls.indexer.buildIndexForBooks(cls.synthetic_set, cls.language_refs)
 
             client = MongoClient('localhost', serverSelectionTimeoutMS=5000)
@@ -165,7 +165,7 @@ class MongoDBQueryPerformanceTest(unittest.TestCase):
 
         if CLEANUP_AFTER_TEST:
             print("Cleaning up MongoDB database...")
-            cleanup_mongodb(DB_NAME)
+            cleanup_mongo_db(DB_NAME)
             print(f"   Removed MongoDB database '{DB_NAME}'")
 
 

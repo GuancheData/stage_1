@@ -12,11 +12,11 @@ from indexer.src.main.python.metadata.storage.json.metadata_json_container impor
 DATALAKE_PATH = r""  #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
-def generateSet():
+def generate_set():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
 
 def test_json_insertion_speed_benchmark():
-    synthetic_set = generateSet()
+    synthetic_set = generate_set()
 
     def delete_json():
         gc.collect()

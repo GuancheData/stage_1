@@ -7,17 +7,17 @@ import os
 import gc
 from pathlib import Path
 
-from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
+from indexer.src.main.python.metadata.parser.metadata_parser import MetadataParser
 from indexer.src.main.python.metadata.storage.csv.metadata_csv_container import MetadataCSVContainer
 
 DATALAKE_PATH = r"" #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
-def generateSet():
+def generate_set():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
 
 def test_csv_query_performance_benchmark():
-    synthetic_set = generateSet()
+    synthetic_set = generate_set()
 
     def delete_csv():
         gc.collect()

@@ -9,17 +9,17 @@ import gc
 from pathlib import Path
 
 import indexer.src.test.resources.mysql_credentials as credentials
-from indexer.src.main.python.metadata.parser.MetadataParser import MetadataParser
-from indexer.src.main.python.metadata.storage.mysql.MetadataMySQLDB import MetadataMySQLDB
+from indexer.src.main.python.metadata.parser.metadata_parser import MetadataParser
+from indexer.src.main.python.metadata.storage.mysql.metadata_mysqldb import MetadataMySQLDB
 
 DATALAKE_PATH = r"" #your datalake path
 downloads = "indexer/src/test/resources/test_downloaded_books_reference.txt"
 
-def generateSet():
+def generate_set():
     return set((int(x) for x in set(Path(downloads).read_text().splitlines()))) if Path(downloads).exists() else set()
 
 def test_mysql_query_performance_benchmark():
-    synthetic_set = generateSet()
+    synthetic_set = generate_set()
 
     def delete_mysql_database():
         gc.collect()
@@ -97,7 +97,7 @@ def test_mysql_query_performance_benchmark():
     })
     old_stdout = sys.stdout
     sys.stdout = io.StringIO()
-    db.saveMetadata(synthetic_set)
+    db.save_metadata(synthetic_set)
     sys.stdout = old_stdout
 
     n = 5
